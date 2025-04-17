@@ -1,0 +1,229 @@
+/* GOOGLE FONTS */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+/* VARIABLES CSS */
+:root {
+    --nav--width: 92px;
+
+    /* Colores */
+    --first-color: #0c5df4;
+    --bg-color: #12192c;
+    --sub-color: #b6cefc;
+    --white-color: #fff;
+
+    /* Fuente y tipografia */
+    --body-font: 'Poppins', sans-serif;
+    --normal-font-size: 1rem;
+    --small-font-size: .875rem;
+
+    /* z index */
+    --z-fixed: 100;
+}
+
+/* BASE */
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+    margin: 0;
+    padding: 2rem 0 0 6.75rem;
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    transition: .5s;
+}
+
+h1 {
+    margin: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* l NAV */
+.l-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--nav--width);
+    height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--white-color);
+    padding: 1.5rem 1.5rem 2rem;
+    transition: .5s;
+    z-index: var(--z-fixed);
+}
+
+/* NAV */
+.nav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.nav__brand {  
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+    margin-left: 1rem; /* 필요 시 조정 */
+    z-index: 999;      /* 이미지 위로 올라오게 */
+}
+
+.nav__toggle {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    /* margin: 0 auto; */ 
+    margin-bottom: 1rem; /* 필요 시 조정 */
+}
+
+.nav__logo {
+    color: var(--white-color);
+    font-weight: 600;
+}
+
+.nav__link {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: center;
+    column-gap: .75rem;
+    padding: .75rem;
+    color: var(--white-color);
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.nav__link:hover {
+    background-color: var(--first-color);
+} 
+
+
+.nav_name {
+    font-size: var(--small-font-size);
+}
+
+/* Expander menu */
+.expander {
+    width: calc(var(--nav--width) + 9.25rem);
+}
+
+/* Add padding body*/
+.body-pd {
+    padding: 2rem 0 0 16rem;
+}
+
+/* Active links menu */
+.active {
+    background-color: var(--first-color);
+}
+
+/* COLLAPSE */
+.collapse {
+    grid-template-columns: 20px max-content 1fr;
+}
+
+.collapse__link {
+    justify-self: flex-end;
+    transition: .5;
+}
+
+.collapse__menu {
+    display: none;
+    padding: .75rem 2.25rem;
+}
+
+.collapse__sublink {
+    color: var(--sub-color);
+    font-size: var(--small-font-size);
+}
+
+.collapse__sublink:hover {
+    color: var(--white-color);
+}
+
+/* Show collapse */
+.showCollapse {
+    display: block;
+}
+
+/* Rotate icon */
+.rotate {
+    transform: rotate(180deg);
+    transition: .5s;
+}
+
+/* 툴팁 스타일 */
+.nav-tooltip {
+    position: fixed;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 1000;
+    pointer-events: none; /* 툴팁이 마우스 이벤트를 방해하지 않도록 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    transition: top 0.1s ease; /* y축 이동만 부드럽게 처리 */
+  }
+  
+  /* 툴팁 화살표 */
+  .nav-tooltip:before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px 6px 6px 0;
+    border-style: solid;
+    border-color: transparent #333 transparent transparent;
+  }
+  
+  /* 사이드바가 확장되었을 때는 nav_name이 보이므로 툴팁 필요 없음 */
+  .expander .nav-tooltip {
+    display: none;
+  }
+  /* 콘텐츠 영역 스타일 */
+#content-area {
+    padding: 20px;
+    margin-left: 68px; /* 기본 사이드바 너비와 일치 */
+    transition: margin-left 0.5s; /* 사이드바와 함께 부드럽게 이동 */
+}
+
+/* 사이드바 확장 시 콘텐츠 영역 조정 */
+body.body-pd #content-area {
+    margin-left: 200px; /* 확장된 사이드바 너비에 맞춤 */
+}
+
+/* 로딩 표시 스타일 */
+.loading {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+    color: #666;
+}
+
+/* 오류 메시지 스타일 */
+.error-message {
+    padding: 20px;
+    background-color: #fff3f3;
+    border-left: 4px solid #f44336;
+    margin-bottom: 20px;
+}
+
+.error-message h2 {
+    color: #f44336;
+    margin-top: 0;
+}
