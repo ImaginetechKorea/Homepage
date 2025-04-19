@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Define the character set and viewport settings for responsive design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS -->
+    <!-- Link to the external CSS file for styles -->
     <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Set the title of the page -->
     <title>SideBar sub menus</title>
 </head>
 <body id="body-pd">
+    <!-- Sidebar Navigation Container -->
     <div class="l-navbar" id="navbar">
         <nav class="nav">
           <div>
+            <!-- Sidebar brand section with the navigation toggle icon -->
             <div class="nav__brand" style="margin-bottom: 20px;"> 
               <img id="nav-toggle" src="./Icons/Menu/menu-outline.png" width="24" height="24" class="nav__toggle" alt="nav-toggle">
             </div>
 
+            <!-- Navigation List: Main link -->
             <div class="nav__list">
               <a href="#" class="nav__link active" data-page="./article/Main.html">
                 <img src="./Icons/Menu/home-outline.png" width="24" height="24" class="nav__icon"> 
@@ -22,6 +27,7 @@
               </a>
             </div>
 
+            <!-- Navigation link: Company page -->
             <div>  
               <a href="#" class="nav__link" data-page="./article/Company.html">
                 <img src="./Icons/Menu/Company.png" width="24" height="24" class="nav__icon"> 
@@ -29,26 +35,29 @@
               </a> 
             </div>
             
-              <div> 
-                <a href="#" class="nav__link" data-page="./article/settings.html">
-                  <img src="./Icons/Menu/settings-outline.png" width="24" height="24" class="nav__icon">
-                  <span class="nav_name">Settings</span>
-                </a>
-              </div>  
+            <!-- Navigation link: Settings page -->
+            <div> 
+              <a href="#" class="nav__link" data-page="./article/settings.html">
+                <img src="./Icons/Menu/settings-outline.png" width="24" height="24" class="nav__icon">
+                <span class="nav_name">Settings</span>
+              </a>
+            </div>  
           </div>
         </nav>
     </div> 
 
-    <!-- ÄÜÅÙÃ÷ ¿µ¿ª -->
+    <!-- Main Content Area -->
     <main id="content-area">
+        <!-- Page title -->
         <h1>Dashboard</h1>
+        <!-- Container for dynamically loaded content -->
         <div id="content-container">
-            <!-- µ¿ÀûÀ¸·Î ·ÎµåµÈ ÄÜÅÙÃ÷°¡ Ç¥½ÃµË´Ï´Ù -->
+            <!-- Initial content is displayed here -->
             <p>Welcome to the dashboard</p>
         </div>
     </main>
     
-    <!-- JS -->
+    <!-- Link to the main JavaScript file that handles dynamic content and interaction -->
     <script src="./assets/js/main.js"></script> 
 </body>
 </html>
