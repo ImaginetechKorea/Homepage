@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Initial page load (Dashboard)
-    const initialPage = './article/Main.html';
+    const initialPage = './article/main.html';
     loadContent(initialPage);
     if (contentAreaH1) {
         // Find the Dashboard link to set the initial title correctly
