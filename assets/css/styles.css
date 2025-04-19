@@ -231,7 +231,7 @@ body.body-pd #content-area {
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
     :root {
-       --nav--width: 75px; /* 사이드바 폭을 늘려서 아이콘 전체가 보이도록 조정 */
+       --nav--width: 62px; /* 사이드바 폭을 늘려서 아이콘 전체가 보이도록 조정 */
     }
     
     .l-navbar {
