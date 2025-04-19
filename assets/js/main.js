@@ -11,6 +11,7 @@ const showMenu = (toggleId, navbarId, bodyId) => {
         toggle.addEventListener('click', () => {
             navbar.classList.toggle('expander');
             bodypadding.classList.toggle('body-pd');
+            // If you want tooltips to disappear immediately when expanding
             hideTooltip();
         })
     }
@@ -27,7 +28,8 @@ linkColor.forEach(l => l.addEventListener('click', colorLink));
 
 /* Collapse Submenu */
 const linkCollapse = document.getElementsByClassName('collapse__link');
-for (let i = 0; i < linkCollapse.length; i++) {
+var i;
+for (i = 0; i < linkCollapse.length; i++) {
     linkCollapse[i].addEventListener('click', function() {
         const collapseMenu = this.nextElementSibling;
         collapseMenu.classList.toggle('showCollapse');
@@ -37,47 +39,69 @@ for (let i = 0; i < linkCollapse.length; i++) {
 }
 
 // --- Tooltip Functionality ---
-let tooltipElement = null;
+let tooltipElement = null; // Variable to hold the single tooltip element
+
+// Function to create the tooltip element if it doesn't exist
 function createTooltipElement() {
     if (!tooltipElement) {
         tooltipElement = document.createElement('div');
-        tooltipElement.className = 'nav-tooltip';
-        tooltipElement.style.position = 'fixed';
-        tooltipElement.style.display = 'none';
-        tooltipElement.style.opacity = '0';
-        tooltipElement.style.transition = 'opacity 0.2s ease, top 0.1s ease';
+        tooltipElement.className = 'nav-tooltip'; // Use the CSS class you provided
+        tooltipElement.style.position = 'fixed'; // Use fixed positioning relative to viewport
+        tooltipElement.style.display = 'none';   // Hidden by default
+        tooltipElement.style.opacity = '0';      // Start transparent for fade effect
+        tooltipElement.style.transition = 'opacity 0.2s ease, top 0.1s ease'; // Smooth transitions
         document.body.appendChild(tooltipElement);
     }
 }
+
+// Function to show the tooltip
 function showTooltip(event, text) {
-    const iconElement = event.currentTarget;
+    const iconElement = event.currentTarget; // The icon that triggered the event
     const navbar = document.getElementById('navbar');
+
+    // Only show tooltip if navbar is collapsed
     if (!navbar.classList.contains('expander')) {
-        createTooltipElement();
-        tooltipElement.textContent = text;
-        const iconRect = iconElement.getBoundingClientRect();
+        createTooltipElement(); // Ensure the tooltip element exists
+
+        tooltipElement.textContent = text; // Set the text
+
+        // Calculate position
+        const iconRect = iconElement.getBoundingClientRect(); // Get icon's position and size
+        const tooltipRect = tooltipElement.getBoundingClientRect(); // Get tooltip's current size (may be 0 if hidden)
+
+        // Position tooltip vertically centered next to the icon
+        // Adjust the '15' for desired horizontal gap from the icon
         const topPos = iconRect.top + (iconRect.height / 2) - (tooltipElement.offsetHeight / 2);
-        const leftPos = iconRect.right + 15;
+        const leftPos = iconRect.right + 15; // Position to the right of the icon
+
         tooltipElement.style.top = `${topPos}px`;
         tooltipElement.style.left = `${leftPos}px`;
-        tooltipElement.style.display = 'block';
+        tooltipElement.style.display = 'block'; // Make it take space
+
+        // Use a tiny timeout to allow 'display: block' to apply before starting the fade-in transition
         setTimeout(() => {
             tooltipElement.style.opacity = '1';
         }, 10);
     }
 }
+
+// Function to hide the tooltip
 function hideTooltip() {
     if (tooltipElement) {
         tooltipElement.style.opacity = '0';
+        // Wait for the fade-out transition to finish before setting display to none
         setTimeout(() => {
+            // Check if it's still supposed to be hidden (user might have hovered back quickly)
             if (tooltipElement.style.opacity === '0') {
-                tooltipElement.style.display = 'none';
+                 tooltipElement.style.display = 'none';
             }
-        }, 200);
+        }, 200); // Match the transition duration (0.2s)
     }
 }
 
+// Add tooltip event listeners within DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Page Loading Functionality ---
     const menuLinks = document.querySelectorAll('.nav__link:not(.collapse), .collapse__sublink');
     const contentAreaH1 = document.querySelector('#content-area h1');
     const contentContainer = document.getElementById('content-container');
@@ -88,8 +112,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const pagePath = this.getAttribute('data-page');
             if (pagePath) {
                 loadContent(pagePath);
+                // Update title (handle potential missing span for sublinks)
                 const nameSpan = this.querySelector('.nav_name');
-                const pageTitle = nameSpan ? nameSpan.textContent : this.textContent.trim();
+                const pageTitle = nameSpan ? nameSpan.textContent : this.textContent.trim(); // Use textContent for sublinks
                 if (contentAreaH1) {
                     contentAreaH1.textContent = pageTitle;
                 }
@@ -97,16 +122,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Initial page load (Dashboard)
     const initialPage = './article/Main.html';
     loadContent(initialPage);
     if (contentAreaH1) {
+        // Find the Dashboard link to set the initial title correctly
         const dashboardLink = document.querySelector(`.nav__link[data-page="${initialPage}"] .nav_name`);
-        contentAreaH1.textContent = dashboardLink ? dashboardLink.textContent : 'Dashboard';
+        if (dashboardLink) {
+            contentAreaH1.textContent = dashboardLink.textContent;
+        } else {
+             contentAreaH1.textContent = 'Dashboard'; // Fallback
+        }
     }
 
+    // --- Attach Tooltip Listeners ---
     const navIcons = document.querySelectorAll('.nav__icon');
     navIcons.forEach(icon => {
-        const parentLink = icon.closest('.nav__link');
+        const parentLink = icon.closest('.nav__link'); // Find the parent link
         if (parentLink) {
             const nameSpan = parentLink.querySelector('.nav_name');
             if (nameSpan) {
@@ -116,8 +148,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-});
+}); // End DOMContentLoaded
 
+// --- Content Loading Function ---
 function loadContent(pagePath) {
     const contentContainer = document.getElementById('content-container');
     if (!contentContainer) {
@@ -126,7 +159,7 @@ function loadContent(pagePath) {
     }
 
     console.log('Fetching content from:', pagePath);
-    contentContainer.innerHTML = '<div class="loading">Loading...</div>';
+    contentContainer.innerHTML = '<div class="loading">Loading...</div>'; // Optional loading indicator
 
     fetch(pagePath)
         .then(response => {

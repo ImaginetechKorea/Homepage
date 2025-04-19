@@ -227,3 +227,29 @@ body.body-pd #content-area {
     color: #f44336;
     margin-top: 0;
 }
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    :root {
+       --nav--width: 60px; /* 사이드바 폭을 줄임 */
+    }
+    
+    body {
+       padding: 2rem 0 0 3.75rem;
+       font-size: 0.9rem;
+    }
+    
+    .l-navbar {
+       width: var(--nav--width);
+       padding: 1rem;
+    }
+    
+    #content-area {
+       margin-left: calc(var(--nav--width) + 10px);
+       padding: 10px;
+    }
+    
+    body.body-pd #content-area {
+       margin-left: calc(var(--nav--width) + 50px);
+    }
+}

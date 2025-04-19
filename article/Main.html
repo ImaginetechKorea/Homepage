@@ -1,182 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ImagineTech Dashboard</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-
-  <!-- External CSS -->
-  <link rel="stylesheet" href="assets/css/styles.css" />
-
+  <meta charset="utf-8">
+  <title>ImagineTech Blog</title>
+  <!-- Google Fonts for a modern, clean look -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* 기본 스타일 */
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f5f5f5;
+    body { 
+      font-family: 'Roboto', sans-serif; 
+      padding: 2rem; 
+      max-width: 800px; 
+      margin: auto; 
     }
-
-    /* Sidebar Navigation */
-    .l-navbar {
-      width: 250px;
-      background-color: #333;
-      color: white;
-      position: fixed;
-      height: 100vh;
-      padding: 1rem;
+    h1, h2, h3 { 
+      font-family: 'Roboto', sans-serif; 
     }
-
-    .nav__brand, .nav__list, .nav__link {
-      margin-bottom: 1rem;
-    }
-
-    .nav__link {
-      display: flex;
-      align-items: center;
-      color: white;
-      text-decoration: none;
-    }
-
-    .nav__link:hover {
-      background-color: #444;
-      border-radius: 4px;
-      padding: 0.3rem;
-    }
-
-    .nav__icon {
-      margin-right: 10px;
-    }
-
-    /* Main content area */
-    main {
-      margin-left: 260px;
-      padding: 2rem;
-    }
-
-    #content-container {
-      max-width: 800px;
-      margin: auto;
-    }
-
-    h1, h2, h3 {
-      font-family: 'Roboto', sans-serif;
-    }
-
-    a {
-      display: block;
-      margin: 1rem 0;
-      font-size: 1.2rem;
-      color: royalblue;
-      text-decoration: none;
-    }
-
-    .CI {
-      text-align: center;
-    }
-
-    .CI h3 {
-      text-align: right;
-      margin-right: 1rem;
-    }
-
-    video {
-      width: 100%;
-      max-width: 560px;
-      height: auto;
-    }
-
-    /* Responsive Layout */
-    @media screen and (max-width: 768px) {
-      .l-navbar {
-        position: relative;
-        width: 100%;
-        height: auto;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-
-      main {
-        margin-left: 0;
-        padding: 1rem;
-      }
-
-      .nav__brand, .nav__list {
-        margin-bottom: 0;
-      }
-
-      .nav__link {
-        flex-direction: column;
-        text-align: center;
-        font-size: 0.8rem;
-      }
-
-      .nav__icon {
-        margin: 0;
-      }
-
-      .CI h3 {
-        text-align: center;
-        margin: 0.5rem 0;
-      }
-
-      video {
-        width: 100%;
-      }
+    a { 
+      display: block; 
+      margin: 1rem 0; 
+      font-size: 1.2rem; 
+      color: royalblue; 
+      text-decoration: none; 
     }
   </style>
 </head>
-<body id="body-pd">
-  <!-- Sidebar -->
-  <div class="l-navbar" id="navbar">
-    <nav class="nav">
-      <div class="nav__brand">
-        <img id="nav-toggle" src="./Icons/Menu/menu-outline.png" width="24" height="24" class="nav__toggle" alt="nav-toggle" />
-      </div>
-
-      <div class="nav__list">
-        <a href="#" class="nav__link active" data-page="./article/Main.html">
-          <img src="./Icons/Menu/home-outline.png" width="24" height="24" class="nav__icon" />
-          <span class="nav_name">Main</span>
-        </a>
-        <a href="#" class="nav__link" data-page="./article/Company.html">
-          <img src="./Icons/Menu/Company.png" width="24" height="24" class="nav__icon" />
-          <span class="nav_name">Company</span>
-        </a>
-        <a href="#" class="nav__link" data-page="./article/settings.html">
-          <img src="./Icons/Menu/settings-outline.png" width="24" height="24" class="nav__icon" />
-          <span class="nav_name">Settings</span>
-        </a>
-      </div>
-    </nav>
+<body> 
+  <h2 style="text-align: center;">Welcome to the ImagineTech!</h2> 
+  <br>
+  <div class="CI Logo" style="text-align: center;">
+    <img src="./image/Imaginetech_CI.png" width="397" height="139" alt="" title="">
+    <h3 style="text-align: right;">Imagine your dream come true</h3>
+    <h1> </h1>
+    <h1>Specializing in software PLC Programming</h1>
+    <h1> </h1>
+    <h1>Automation plant programming in c & c#</h1>
   </div>
-
-  <!-- Main Content -->
-  <main id="content-area">
-    <h1>Dashboard</h1>
-    <div id="content-container">
-      <p>Welcome to the dashboard</p>
-
-      <h2 style="text-align: center;">Welcome to ImagineTech!</h2>
-      <div class="CI">
-        <img src="./image/Imaginetech_CI.png" width="100%" style="max-width: 397px;" alt="ImagineTech Logo" />
-        <h3>Imagine your dream come true</h3>
-        <h1>Specializing in software PLC Programming</h1>
-        <h1>Automation plant programming in C & C#</h1>
-      </div>
-
-      <div style="text-align: center; margin-top: 2rem;">
-        <video src="./Video/CenteringRobot.mp4" autoplay muted loop controls title="Centering Robot"></video>
-      </div>
-    </div>
-  </main>
-
-  <!-- JS -->
-  <script src="./assets/js/main.js"></script>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div style="text-align: center;">
+    <video width="560" height="316" src="./Video/CenteringRobot.mp4" title="Centering Robot" autoplay muted loop controls> 
+    </video>
+  </div>
 </body>
 </html>
-
