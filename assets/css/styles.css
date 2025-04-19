@@ -5,18 +5,18 @@
 :root {
     --nav--width: 92px;
 
-    /* Colores */
+    /* Colors */
     --first-color: #0c5df4;
     --bg-color: #12192c;
     --sub-color: #b6cefc;
     --white-color: #fff;
 
-    /* Fuente y tipografia */
+    /* Font and typography */
     --body-font: 'Poppins', sans-serif;
     --normal-font-size: 1rem;
     --small-font-size: .875rem;
 
-    /* z index */
+    /* z-index */
     --z-fixed: 100;
 }
 
@@ -48,7 +48,7 @@ a {
     text-decoration: none;
 }
 
-/* l NAV */
+/* Sidebar Navigation */
 .l-navbar {
     position: fixed;
     top: 0;
@@ -75,8 +75,8 @@ a {
     display: flex;
     align-items: center;
     justify-content: flex-start; 
-    margin-left: 1rem; /* 필요 시 조정 */
-    z-index: 999;      /* 이미지 위로 올라오게 */
+    margin-left: 1rem; /* adjust if necessary */
+    z-index: 999;      /* bring above the image */
 }
 
 .nav__toggle {
@@ -84,7 +84,7 @@ a {
     height: 24px;
     object-fit: contain;
     /* margin: 0 auto; */ 
-    margin-bottom: 1rem; /* 필요 시 조정 */
+    margin-bottom: 1rem; /* adjust if necessary */
 }
 
 .nav__logo {
@@ -109,7 +109,6 @@ a {
     background-color: var(--first-color);
 } 
 
-
 .nav_name {
     font-size: var(--small-font-size);
 }
@@ -119,12 +118,12 @@ a {
     width: calc(var(--nav--width) + 9.25rem);
 }
 
-/* Add padding body*/
+/* Add padding to body */
 .body-pd {
     padding: 2rem 0 0 16rem;
 }
 
-/* Active links menu */
+/* Active links in menu */
 .active {
     background-color: var(--first-color);
 }
@@ -164,7 +163,7 @@ a {
     transition: .5s;
 }
 
-/* 툴팁 스타일 */
+/* Tooltip styles */
 .nav-tooltip {
     position: fixed;
     background-color: #333;
@@ -173,14 +172,14 @@ a {
     border-radius: 4px;
     font-size: 14px;
     z-index: 1000;
-    pointer-events: none; /* 툴팁이 마우스 이벤트를 방해하지 않도록 */
+    pointer-events: none; /* prevent tooltip from interfering with mouse events */
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     white-space: nowrap;
-    transition: top 0.1s ease; /* y축 이동만 부드럽게 처리 */
-  }
+    transition: top 0.1s ease; /* only smooth vertical movement */
+}
   
-  /* 툴팁 화살표 */
-  .nav-tooltip:before {
+/* Tooltip arrow */
+.nav-tooltip:before {
     content: '';
     position: absolute;
     left: -6px;
@@ -189,25 +188,26 @@ a {
     border-width: 6px 6px 6px 0;
     border-style: solid;
     border-color: transparent #333 transparent transparent;
-  }
+}
   
-  /* 사이드바가 확장되었을 때는 nav_name이 보이므로 툴팁 필요 없음 */
-  .expander .nav-tooltip {
+/* When the sidebar is expanded, nav_name is visible so tooltip is not needed */
+.expander .nav-tooltip {
     display: none;
-  }
-  /* 콘텐츠 영역 스타일 */
+}
+
+/* Content area styles */
 #content-area {
     padding: 20px;
-    margin-left: 68px; /* 기본 사이드바 너비와 일치 */
-    transition: margin-left 0.5s; /* 사이드바와 함께 부드럽게 이동 */
+    margin-left: 68px; /* match the default sidebar width */
+    transition: margin-left 0.5s; /* move smoothly along with the sidebar */
 }
 
-/* 사이드바 확장 시 콘텐츠 영역 조정 */
+/* Adjust content area when sidebar is expanded */
 body.body-pd #content-area {
-    margin-left: 200px; /* 확장된 사이드바 너비에 맞춤 */
+    margin-left: 200px; /* adjusted for expanded sidebar width */
 }
 
-/* 로딩 표시 스타일 */
+/* Loading indicator styles */
 .loading {
     text-align: center;
     padding: 20px;
@@ -215,7 +215,7 @@ body.body-pd #content-area {
     color: #666;
 }
 
-/* 오류 메시지 스타일 */
+/* Error message styles */
 .error-message {
     padding: 20px;
     background-color: #fff3f3;
@@ -231,12 +231,12 @@ body.body-pd #content-area {
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
     :root {
-       --nav--width: 62px; /* 사이드바 폭을 늘려서 아이콘 전체가 보이도록 조정 */
+       --nav--width: 62px; /* increase sidebar width so that icons are fully visible */
     }
     
     .l-navbar {
        width: var(--nav--width);
-       padding: 0.5rem; /* 패딩을 줄여서 내부 컨텐츠 여유 공간 확보 */
+       padding: 0.5rem; /* reduce padding for inner content space */
     }
     
     #content-area {
