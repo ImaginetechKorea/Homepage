@@ -1,16 +1,194 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> ImagineTech </title>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                background: #f4f8fb;
+                font-family: 'Noto Sans KR', Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                color: #333;
+                line-height: 1.6;
+            }
+    
+            header {
+                width: 800px;
+                margin: 40px auto 0 auto;  
+                text-align: center;
+                padding: 36px 0 24px 0;
+                background: #15417c;
+                color: #fff;
+                border-radius: 12px;
+                box-sizing: border-box;
+                box-shadow: 0 4px 20px rgba(50,80,160,0.07);
+            }
+    
+            header h1 {
+                margin: 0 0 16px 0;
+                font-size: 2.2rem;
+                font-weight: 700;
+                letter-spacing: 1px;
+            }
+            
+            header p {
+                margin: 0;
+                font-size: 1.15rem;
+                font-weight: 400;
+            }
+    
+            .container {
+                max-width: 800px;
+                margin: 50px auto;
+                padding: 0 56px;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 40px 32px;
+            }
+    
+            .article {
+                background: linear-gradient(120deg, #1565c0 80%, #1e88e5 100%);
+                color: #fff;
+                border-radius: 14px;
+                box-shadow: 0 10px 30px rgba(21, 101, 192, 0.12);
+                padding: 32px 28px;
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            
+            .article:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(21, 101, 192, 0.18);
+            }
+    
+            .article h2 {
+                font-size: 1.4rem;
+                font-weight: 700;
+                margin: 0 0 24px 0;
+                position: relative;
+                padding-bottom: 12px;
+            }
+            
+            .article h2::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 60px;
+                height: 3px;
+                background-color: rgba(255, 255, 255, 0.4);
+            }
+    
+            .article p {
+                line-height: 1.7;
+                font-size: 1rem;
+                margin: 0 0 12px 0;
+                position: relative;
+                padding-left: 20px;
+            } 
+         
+            .icon {
+                display: inline-block;
+                margin-right: 8px;
+                font-size: 1.4rem;
+            }
+    
+            @media (max-width: 1100px) {
+                .container {
+                    grid-template-columns: repeat(2, 1fr);
+                    padding: 0 40px;
+                }
+                
+                header h1 {
+                    font-size: 1.8rem;
+                }
+            }
+    
+            @media (max-width: 768px) {
+                .container {
+                    grid-template-columns: 1fr;
+                    padding: 0 30px;
+                    gap: 24px;
+                    margin: 30px auto;
+                }
+                
+                header {
+                    padding: 24px 16px;
+                }
+                
+                header h1 {
+                    font-size: 1.6rem;
+                }
+                
+                header p {
+                    font-size: 1rem;
+                }
+                
+                .article {
+                    padding: 24px 22px;
+                }
+                
+                .article h2 {
+                    font-size: 1.3rem;
+                    margin-bottom: 18px;
+                }
+            }
+    
+            @media (max-width: 480px) {
+                .container {
+                    padding: 0 20px;
+                }
+                
+                .article {
+                    padding: 18px 16px;
+                }
+                
+                .article h2 {
+                    font-size: 1.2rem;
+                }
+            } 
+    
+            /* Mobile responsive adjustments */
+            @media (max-width: 768px) {
+                :root {
+                --nav--width: 62px; /* increase sidebar width so that icons are fully visible */
+                }
+                
+                .l-navbar {
+                width: var(--nav--width);
+                padding: 0.5rem; /* reduce padding for inner content space */
+                }
+                
+                #content-area {
+                margin-left: calc(var(--nav--width) + 10px);
+                padding: 10px;
+                }
+                
+                body.body-pd #content-area {
+                margin-left: calc(var(--nav--width) + 50px);
+                }
+            }
+        </style>
+    </head>
 <body> 
-    <div class="settings-content">
-        <div class="Application"> 
-                <h4>&deg; Name : wincenter.exe 
+    <div class="container">
+        <div class="article"> 
+                <h4>&deg; &nbsp;
+                    <a href="./applications/WinCenter.7z" target="_blank">WinCenter</a>
                     <br> Make all windows alignment to center position.  
                     <br> Utilities for when windows are out of screen 
                     (프로그램이 창을 화면 밖으로 이동되어 보이지 않을때 사용하는 유용한 유틸리티)
-                    <a href="./applications/WinCenter.7z" target="_blank">WinCenter</a>
                 </h4> 
         </div>  
     </div>
