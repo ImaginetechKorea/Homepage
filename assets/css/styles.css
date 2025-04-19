@@ -243,8 +243,13 @@ body.body-pd #content-area {
        margin-left: calc(var(--nav--width) + 10px);
        padding: 10px;
     }
+     
+    img, video {
+        max-width: 100%;
+        height: auto;
+    }  
     
-    body.body-pd #content-area {
-       margin-left: calc(var(--nav--width) + 50px);
+    html {
+        font-size: 87.5%; /* 모바일에서 전체적으로 14px 기준 */
     }
 }
