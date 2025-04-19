@@ -3,7 +3,7 @@
 
 /* VARIABLES CSS */
 :root {
-    --nav--width: 95px;
+    --nav--width: 92px;
 
     /* Colores */
     --first-color: #0c5df4;
@@ -231,7 +231,7 @@ body.body-pd #content-area {
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
     :root {
-       --nav--width: 80px; /* 사이드바 폭을 늘려서 아이콘 전체가 보이도록 조정 */
+       --nav--width: 75px; /* 사이드바 폭을 늘려서 아이콘 전체가 보이도록 조정 */
     }
     
     .l-navbar {
