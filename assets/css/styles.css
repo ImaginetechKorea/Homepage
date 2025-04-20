@@ -241,7 +241,7 @@ body.body-pd #content-area {
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
     :root {
-       --nav--width: 55px; /* increase sidebar width so that icons are fully visible */
+       --nav--width: 58px; /* increase sidebar width so that icons are fully visible */
     }
     
     .l-navbar {
