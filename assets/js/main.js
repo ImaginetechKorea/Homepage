@@ -295,32 +295,28 @@ function draw() {
     animationId = requestAnimationFrame(draw);
 }
 
-// Function to stop the matrix effect
 function stopMatrix() {
     if (animationId) {
         cancelAnimationFrame(animationId);
+        animationId = null;
         
-        // Clear the canvas
+        // 캔버스 내용을 클리어하고 DOM에서 삭제
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-              
-        // Clear and remove the canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        canvas.remove(); // canvas 삭제
-        
-        // Change background color (optional)
+        canvas.remove(); 
+
+        // 배경색을 흰색으로 변경
         document.body.style.backgroundColor = 'white';
-        
-        // Change text color (optional)
+
+        // 만약 메인 컨텐츠의 텍스트 색상 등도 변경이 필요하면 아래처럼 조정
         const contentContainer = document.getElementById('content-container');
-        if(contentContainer) {
+        if (contentContainer) {
             contentContainer.style.color = 'black';
         }
         
-        // Load the main content again
+        // main.html을 로드 (동적으로 content-container에 삽입)
         loadContent('./article/main.html');
     }
     
-    // Clear timer
     if (timerId) {
         clearTimeout(timerId);
     }
