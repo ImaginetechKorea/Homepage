@@ -244,9 +244,11 @@ let animationId;
 let timerId;
 
 // Animation function
-function draw() {
+function draw() {  
+    // Adjust this value to control the rainflow effect
+    const rainflowEffect = 0.1; 
     // Semi-transparent black overlay to create fading effect
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillStyle = `rgba(0, 0, 0, ${rainflowEffect})`;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Set text style
