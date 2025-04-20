@@ -192,3 +192,159 @@ function loadContent(pagePath) {
             `;
         });
 }
+
+ 
+// <!-- Matrix Code Rain with 5-Second Duration -->
+// Canvas setup
+const canvas = document.getElementById('matrixCanvas');
+const ctx = canvas.getContext('2d');
+
+// Adjust canvas size to match screen
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Define code fragments (split the provided code into words and symbols)
+const codeFragments = [
+    "TITLE", "=FOR", "DEBUG", "//", "FOR", "DEBUG",
+    "//", "A", "#RFLAG", "//", "JC", "NRST",
+    "//", "BE", "NETWORK", "TITLE", "=",
+    "//////////////////////////",
+    "////", "CHECK", "RESET", "FLAG", "ON",
+    "/////////////////////////",
+    "A", "#RFLAG;", "JCN", "NRST;", "//", "NOT", "RESET", "OF", "OUTPUT",
+    "//Reset", "Flag(RFLAG)가", "ON이면", "출력", "OUT은", "0.0으로", "Clear한다.",
+    "L", "0.000000e+000;", "JU", "ROUT;", "//", "ACCUMULATOR", "값을", "출력",
+    "NETWORK", "TITLE", "=",
+    "///////////////////////////",
+    "////", "CHECK", "PRESET", "FLAG", "ON",
+    "//////////////////////////",
+    "NRST:", "A", "#PFLAG;", "JCN", "NPRE;", "//", "NOT", "PRESET",
+    "//", "PRESET", "Flag(PFLAG)가", "ON되면", "출력", "OUT은", "Preset", "값", "PVAL으로", "Setting", "한다.",
+    "L", "#PVAL;", "JU", "ROUT;"
+];
+
+// Calculate font size and number of columns
+const fontSize = 14;
+const columns = Math.floor(canvas.width / fontSize) - 1;
+
+// Arrays to store the position and properties of each column
+const drops = [];         // Y-positions
+const wordIndices = [];   // Which word is currently being displayed
+const speeds = [];        // How fast each column falls
+const speedRatio = 5; // Speed ratio for the falling effect
+// Initialize arrays
+for (let i = 0; i < columns; i++) {
+    drops[i] = Math.floor(Math.random() * canvas.height / fontSize) * -1;
+    wordIndices[i] = Math.floor(Math.random() * codeFragments.length);
+    speeds[i] = (0.5 + Math.random() * 1.5)/speedRatio; // Different speeds for each column
+}
+
+// Variables to store animation and timer IDs
+let animationId;
+let timerId;
+
+// Animation function
+function draw() {
+    // Semi-transparent black overlay to create fading effect
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Set text style
+    ctx.font = fontSize + 'px monospace';
+
+    // Draw words for each column
+    for (let i = 0; i < drops.length; i++) {
+        // Get current word for this column
+        const wordIdx = wordIndices[i];
+        const text = codeFragments[wordIdx];
+        
+        // Calculate position
+        const x = i * fontSize;
+        const y = Math.floor(drops[i]) * fontSize;
+        
+        // Only draw if within screen bounds
+        if (y > 0 && y < canvas.height) {
+            // Occasionally highlight words in white
+            if (Math.random() > 0.95) {
+                ctx.fillStyle = '#FFF'; // White highlight
+            } else {
+                ctx.fillStyle = '#0F0'; // Default matrix green
+            }
+            ctx.fillText(text, x, y);
+        }
+
+        // Reset when word reaches bottom of screen
+        if (y > canvas.height) {
+            drops[i] = 0;
+            wordIndices[i] = Math.floor(Math.random() * codeFragments.length);
+            speeds[i] = (0.5 + Math.random() * 1.5) /speedRatio; // Reset speed
+        }
+        
+        // Increment Y position based on speed
+        drops[i] += speeds[i];
+        
+        // Occasionally change the word
+        if (Math.random() > 0.98) {
+            wordIndices[i] = Math.floor(Math.random() * codeFragments.length);
+        }
+    }
+
+    // Request next animation frame
+    animationId = requestAnimationFrame(draw);
+}
+
+// Function to stop the matrix effect
+function stopMatrix() {
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+        
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+              
+        // Clear and remove the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.remove(); // canvas 삭제
+        
+        // Change background color (optional)
+        document.body.style.backgroundColor = 'white';
+        
+        // Change text color (optional)
+        const contentContainer = document.getElementById('content-container');
+        if(contentContainer) {
+            contentContainer.style.color = 'black';
+        }
+        
+        // Load the main content again
+        loadContent('./article/main.html');
+    }
+    
+    // Clear timer
+    if (timerId) {
+        clearTimeout(timerId);
+    }
+}
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    // Recalculate number of columns
+    const newColumns = Math.floor(canvas.width / fontSize) - 1;
+    
+    // Adjust array sizes
+    while (drops.length < newColumns) {
+        drops.push(Math.random() * canvas.height / fontSize * -1);
+        wordIndices.push(Math.floor(Math.random() * codeFragments.length));
+        speeds.push(0.5 + Math.random() * 1.5);
+    }
+    drops.length = newColumns;
+    wordIndices.length = newColumns;
+    speeds.length = newColumns;
+});
+
+// Start animation when page loads
+animationId = requestAnimationFrame(draw);
+
+// Stop animation after 5 seconds
+timerId = setTimeout(stopMatrix, 5000);
