@@ -14,6 +14,19 @@
     <meta property="og:description" content="Welcome to Imaginetech!" />
     <meta property="og:url" content="https://imaginetech.kr" />
     <meta property="og:type" content="website" />
+    <style>
+      #matrixCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* 컨텐츠 뒤에 놓이도록 낮은 z-index 부여 */
+    }   
+    body {
+    background-color: #f7f7f7 !important;
+  }
+  </style> 
 </head>
 <body id="body-pd">
     <canvas id="matrixCanvas"></canvas>
@@ -76,7 +89,7 @@
     </div> 
 
     <!-- Main Content Area -->
-    <main id="content-area"> 
+    <main id="content-area">  
         <!-- Container for dynamically loaded content -->
         <div id="content-container"> 
         </div>
