@@ -228,6 +228,16 @@ body.body-pd #content-area {
     margin-top: 0;
 }
 
+.copy-text {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+  }
+
+  .copied {
+    color: green;
+  }
+
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
     :root {

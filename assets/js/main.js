@@ -150,6 +150,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 }); // End DOMContentLoaded
 
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert(`Copied to clipboard: ${text}`);
+    }).catch(err => {
+      console.error('Failed to copy:', err);
+    });
+}
+
 // --- Content Loading Function ---
 function loadContent(pagePath) {
     const contentContainer = document.getElementById('content-container');
