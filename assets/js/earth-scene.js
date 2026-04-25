@@ -9,12 +9,15 @@
             yRatio: 0.5,
             rotationSpeed: -0.3,
             starCount: 200,
+            starRotationSpeed: -0.00018,
+            starPoleXRatio: 0.5,
+            starPoleYRatio: 0.12,
             showMoon: true,
             showMoonOrbit: false,
             moonOrbitRadiusRatio: 1.95,
             moonRadiusRatio: 0.06,
             moonOrbitTilt: 0.45,
-            moonSpeed: 0.01
+            moonSpeed: -0.0012
         };
 
         return {
@@ -25,14 +28,23 @@
         };
     }
 
-    function createStars(count, width, height) {
-        return Array.from({ length: count }, () => ({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            size: Math.random() * 2 + 0.5,
-            brightness: Math.random() * 0.8 + 0.2,
-            twinkle: Math.random() * Math.PI * 2
-        }));
+    function createStars(count, width, height, options) {
+        const poleX = width * options.starPoleXRatio;
+        const poleY = height * options.starPoleYRatio;
+
+        return Array.from({ length: count }, () => {
+            const x = Math.random() * width;
+            const y = Math.random() * height;
+
+            return {
+                baseAngle: Math.atan2(y - poleY, x - poleX),
+                orbitRadius: Math.hypot(x - poleX, y - poleY),
+                driftFactor: 0.7 + Math.random() * 0.6,
+                size: Math.random() * 2 + 0.5,
+                brightness: Math.random() * 0.8 + 0.2,
+                twinkle: Math.random() * Math.PI * 2
+            };
+        });
     }
 
     function ensureCanvas(canvasId) {
@@ -59,24 +71,37 @@
         }
 
         const { canvas, options } = state;
+        const cssWidth = window.innerWidth;
+        const cssHeight = window.innerHeight;
+        const devicePixelRatio = Math.max(window.devicePixelRatio || 1, 1);
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = Math.round(cssWidth * devicePixelRatio);
+        canvas.height = Math.round(cssHeight * devicePixelRatio);
+        canvas.style.width = `${cssWidth}px`;
+        canvas.style.height = `${cssHeight}px`;
 
-        state.earthRadius = Math.min(canvas.width, canvas.height) * options.radiusRatio;
-        state.earthX = canvas.width * options.xRatio;
-        state.earthY = canvas.height * options.yRatio;
+        state.ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+
+        state.earthRadius = Math.min(cssWidth, cssHeight) * options.radiusRatio;
+        state.earthX = cssWidth * options.xRatio;
+        state.earthY = cssHeight * options.yRatio;
         state.moonOrbitRadius = state.earthRadius * options.moonOrbitRadiusRatio;
         state.moonRadius = state.earthRadius * options.moonRadiusRatio;
-        state.stars = createStars(options.starCount, canvas.width, canvas.height);
+        state.stars = createStars(options.starCount, cssWidth, cssHeight, options);
     }
 
     function drawStars() {
+        const poleX = window.innerWidth * state.options.starPoleXRatio;
+        const poleY = window.innerHeight * state.options.starPoleYRatio;
+
         state.stars.forEach((star) => {
+            const angle = star.baseAngle + state.starFieldRotation * star.driftFactor;
+            const starX = poleX + Math.cos(angle) * star.orbitRadius;
+            const starY = poleY + Math.sin(angle) * star.orbitRadius;
             const alpha = star.brightness * (0.5 + 0.5 * Math.sin(star.twinkle));
             state.ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
             state.ctx.beginPath();
-            state.ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+            state.ctx.arc(starX, starY, star.size, 0, Math.PI * 2);
             state.ctx.fill();
             star.twinkle += 0.02;
         });
@@ -227,18 +252,18 @@
         const atmosphereGradient = ctx.createRadialGradient(
             earthX,
             earthY,
-            earthRadius * 0.98,
+            earthRadius * 0.95,
             earthX,
             earthY,
-            earthRadius * 1.06
+            earthRadius * 1.1
         );
         atmosphereGradient.addColorStop(0, 'rgba(150, 210, 255, 0)');
-        atmosphereGradient.addColorStop(0.45, 'rgba(150, 210, 255, 0.08)');
-        atmosphereGradient.addColorStop(0.75, 'rgba(130, 200, 255, 0.2)');
+        atmosphereGradient.addColorStop(0.42, 'rgba(150, 210, 255, 0.06)');
+        atmosphereGradient.addColorStop(0.74, 'rgba(130, 200, 255, 0.16)');
         atmosphereGradient.addColorStop(1, 'rgba(90, 170, 235, 0)');
         ctx.fillStyle = atmosphereGradient;
         ctx.beginPath();
-        ctx.arc(earthX, earthY, earthRadius * 1.06, 0, Math.PI * 2);
+        ctx.arc(earthX, earthY, earthRadius * 1.1, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.strokeStyle = 'rgba(170, 220, 255, 0.22)';
@@ -282,6 +307,7 @@
         }
 
         state.earthRotation += options.rotationSpeed;
+        state.starFieldRotation += options.starRotationSpeed;
         if (options.showMoon) {
             state.moonAngle += options.moonSpeed;
         }
@@ -341,6 +367,7 @@
             earthImg: new Image(),
             earthTextureLoaded: false,
             earthRotation: 0,
+            starFieldRotation: 0,
             moonAngle: 0,
             animationId: null,
             stars: []

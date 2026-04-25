@@ -76,12 +76,13 @@
     .video-container {
       margin: 4rem auto 0;
       text-align: center;
-    }
+    } 
 
     .video-container video {
-      width: 250px;
-      height: 130px;
-      max-width: 29vw;
+      width: 350px;
+      max-width: 100%;
+      aspect-ratio: 25 / 25;
+      height: auto;
       border: 0;
       background: transparent;
       box-shadow: none;
@@ -111,10 +112,6 @@
         text-align: center;
       }
 
-      .video-container video {
-        max-width: 53vw;
-      }
-
       .company-logo h1 {
         font-size: clamp(1.35rem, 5vw, 2rem);
       }
@@ -126,11 +123,6 @@
         padding: 4.75rem 0.5rem 0.75rem calc(var(--nav--width, 62px) + 0.5rem);
       }
 
-      .video-container video {
-        width: 100%;
-        max-width: 240px;
-        height: auto;
-      }
     }
   </style>
 </head>
@@ -165,18 +157,24 @@
         <br> 
       </header>
 
-      <div class="company-logo CI Logo">
+      <div class="company-logo CI Logo" align="center" background="blue">
         <img src="../image/Imaginetech_CI.png" alt="ImagineTech Logo" title="ImagineTech - Industrial Automation Specialists">
-        <h4>Imagine your dream come true</h4>
+        <div align="right"> <h5>Imagine your dream come true</h5> </div>
         <br>
         <h1 class="glow-text">Specialized in PLC Programming and Automation plant programming in C &amp; C#</h1>
       </div>
 
-      <div class="video-container">
+      <div class="video-container" align="center" >
         <br>
         <br>
         <br>
-        <video src="../Video/CenteringRobot.mp4" title="Centering Robot" autoplay muted loop controls preload="auto" playsinline webkit-playsinline data-performance-optimized="true"></video>
+        <br>
+        <br>
+        <br>
+        <br>
+        <video  
+            src="../Video/CenteringRobot.mp4" title="Centering Robot" autoplay muted loop controls preload="auto" playsinline webkit-playsinline data-performance-optimized="true" siz>           
+        </video>
       </div>
     </section>
 

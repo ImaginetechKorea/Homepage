@@ -152,6 +152,47 @@ setInterval(() => {
 // Start continuous monitoring
 requestAnimationFrame(monitorAnimations);
 
+function rewriteCssUrls(cssText, baseUrl) {
+    return cssText.replace(/url\((['"]?)(.*?)\1\)/g, (match, quote, rawUrl) => {
+        const assetUrl = rawUrl.trim();
+
+        if (
+            !assetUrl ||
+            assetUrl.startsWith('data:') ||
+            assetUrl.startsWith('#') ||
+            /^[a-zA-Z][a-zA-Z\d+.-]*:/.test(assetUrl)
+        ) {
+            return match;
+        }
+
+        const resolvedUrl = new URL(assetUrl, baseUrl).href;
+        return `url("${resolvedUrl}")`;
+    });
+}
+
+function scopePageCss(cssText, targetSelector) {
+    return cssText
+        .replace(/body\.menu-expanded/g, targetSelector)
+        .replace(/(^|[,{]\s*)body(?=[:\s.{#\[,]?)/gm, `$1${targetSelector}`)
+        .replace(/(^|[,{]\s*)html(?=[:\s.{#\[,]?)/gm, `$1${targetSelector}`);
+}
+
+function applyPageStyles(pageDocument, resolvedPageUrl, targetSelector) {
+    let dynamicStyle = document.getElementById('dynamic-page-styles');
+
+    if (!dynamicStyle) {
+        dynamicStyle = document.createElement('style');
+        dynamicStyle.id = 'dynamic-page-styles';
+        document.head.appendChild(dynamicStyle);
+    }
+
+    const inlineStyles = Array.from(pageDocument.querySelectorAll('style'))
+        .map((styleElement) => scopePageCss(rewriteCssUrls(styleElement.textContent, resolvedPageUrl), targetSelector))
+        .join('\n\n');
+
+    dynamicStyle.textContent = `${inlineStyles}\n\n#content-container > .embedded-page { --nav--width: 62px; }\n#content-container > .embedded-page > .page-content { margin: 0 !important; padding: 0 !important; }`;
+}
+
 // --- Content Loading Function ---
 function loadContent(pagePath) {
     const contentContainer = document.getElementById('content-container');
@@ -176,14 +217,31 @@ function loadContent(pagePath) {
 
             const parser = new DOMParser();
             const pageDocument = parser.parseFromString(html, 'text/html');
-            const pageContent = pageDocument.querySelector('main.page-content') || pageDocument.querySelector('.page-content');
+            const sanitizedBody = pageDocument.body ? pageDocument.body.cloneNode(true) : null;
+
+            if (sanitizedBody) {
+                sanitizedBody.querySelectorAll('script').forEach((scriptElement) => scriptElement.remove());
+            }
+
+            const pageContent =
+                pageDocument.querySelector('main.page-content') ||
+                pageDocument.querySelector('.page-content') ||
+                sanitizedBody;
             const resolvedPageUrl = new URL(pagePath, window.location.href);
 
             if (!pageContent) {
                 throw new Error(`Page content container not found in ${pagePath}`);
             }
 
-            contentContainer.innerHTML = pageContent.innerHTML;
+            const hasDedicatedPageContent = pageContent !== sanitizedBody;
+            const targetSelector = hasDedicatedPageContent
+                ? '#content-container > .embedded-page > .page-content'
+                : '#content-container > .embedded-page';
+
+            applyPageStyles(pageDocument, resolvedPageUrl, targetSelector);
+            contentContainer.innerHTML = hasDedicatedPageContent
+                ? `<div class="embedded-page">${pageContent.outerHTML}</div>`
+                : `<div class="embedded-page">${pageContent.innerHTML}</div>`;
             applyEarthScene(pagePath);
 
             contentContainer.querySelectorAll('[src], [href], [poster]').forEach((element) => {
