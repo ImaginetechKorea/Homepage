@@ -138,6 +138,7 @@ a:hover {
     align-items: center;
     justify-content: center; 
     margin-left: 0;
+    margin-bottom: 20px;
     position: relative;
     z-index: 999;
 }
@@ -518,7 +519,7 @@ body.body-pd #content-area {
 @media (max-width: 768px), (max-device-width: 768px) {
     :root {
         --nav--width: 100%;
-        --nav--height: 80px;
+        --nav--height: 40px;
     }
 
     .nav-overlay {
@@ -561,14 +562,14 @@ body.body-pd #content-area {
     }
     
     body {
-        padding: 80px 0 0 0;
+        padding: var(--nav--height) 0 0 0;
     }
     
     .l-navbar {
         width: 100%;
         height: var(--nav--height);
         flex-direction: row;
-        padding: 0.5rem 1rem;
+        padding: 0 0.5rem;
         background: linear-gradient(90deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
         border-right: none;
         border-bottom: 2px solid var(--steel-blue);
@@ -594,19 +595,24 @@ body.body-pd #content-area {
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        height: auto;
+        height: 100%;
         overflow: visible;
     }
     
     .nav__brand {
-        margin: 0;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        margin: 0 !important;
         order: 1;
     }
     
     .nav__toggle {
-        width: 35px;
-        height: 35px;
+        width: 24px;
+        height: 24px;
         margin: 0;
+        position: relative;
+        top: 1px;
     }
     
     .nav__list {
@@ -689,7 +695,7 @@ body.body-pd #content-area {
     }
     
     .body-pd {
-        padding: 80px 0 0 0;
+        padding: var(--nav--height) 0 0 0;
     }
     
     .expander {

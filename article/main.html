@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ImagineTech Blog</title>
+  <title>ImagineTech</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/styles.css">
   <style>
@@ -33,7 +33,7 @@
     }
 
     .hero {
-      max-width: 960px;
+      max-width: 1920px;
       width: 100%;
       margin: 2rem auto 0;
       text-align: center;
@@ -129,7 +129,7 @@
     }
 
     .contact-info {
-      max-width: 960px;
+      max-width: 1920px;
       width: 100%;
       margin: 2rem auto 0;
       line-height: 1.8;
@@ -166,25 +166,6 @@
   </style>
 </head>
 <body>
-  <div class="l-navbar" id="navbar">
-    <nav class="nav">
-      <div>
-        <div class="nav__brand" style="margin-bottom: 20px;">
-          <img src="../Icons/Menu/menu-outline.png" alt="nav-toggle" class="nav__toggle" id="nav-toggle">
-        </div>
-        <div class="nav__list">
-          <div><a href="./main.html" class="nav__link active"><img src="../Icons/Menu/home-outline.png" class="nav__icon" alt="Main"><span class="nav_name">Main</span></a></div>
-          <div><a href="./company.html" class="nav__link"><img src="../Icons/Menu/company.png" class="nav__icon" alt="Company"><span class="nav_name">Company</span></a></div>
-          <div><a href="./links.html" class="nav__link"><img src="../Icons/Menu/link_icon.png" class="nav__icon" alt="Link"><span class="nav_name">Link</span></a></div>
-          <div><a href="./applications.html" class="nav__link"><img src="../Icons/Menu/applications.png" class="nav__icon" alt="Application"><span class="nav_name">Application</span></a></div>
-          <div><a href="./documents.html" class="nav__link"><img src="../Icons/Menu/documents.png" class="nav__icon" alt="Documents"><span class="nav_name">Documents</span></a></div>
-          <div><a href="./plc.html" class="nav__link"><img src="../Icons/Menu/plc.png" class="nav__icon" alt="PLC"><span class="nav_name">PLC</span></a></div>
-          <div><a href="./ImMel.html" class="nav__link"><img src="../Icons/Menu/ImMel.png" class="nav__icon" alt="ImMel"><span class="nav_name">ImMel</span></a></div>
-        </div>
-      </div>
-    </nav>
-  </div>
-
   <main class="page-content">
     <section class="hero">
       <header class="glow-text">
@@ -232,22 +213,5 @@
     </div>
   </main>
 
-  <canvas id="matrixCanvas" style="position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%;"></canvas>
-
-  <script src="../assets/js/sidebar.js"></script>
-  <script src="../assets/js/earth-scene.js"></script>
-  <script>
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).catch(() => {});
-    }
-
-    window.initEarthScene({
-      canvasId: 'matrixCanvas',
-      texturePath: '../image/earth-texture.jpg',
-      preset: 'main',
-      radiusRatio: 0.264,
-      showMoonOrbit: false
-    });
-  </script>
 </body>
 </html>
