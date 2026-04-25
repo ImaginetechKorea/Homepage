@@ -3,10 +3,45 @@
 <head>
     <!-- Define the character set and viewport settings for responsive design -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#1a1a2e">
+    
+    <!-- Google Fonts for Professional Tech Theme -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <!-- Link to the external CSS file for styles -->
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- Set the title of the page -->
+    <title>Imaginetech</title>
+    
+    <!-- Immediate animation start script -->
+    <script>
+        // Force animations to start immediately when CSS loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const root = document.documentElement;
+            root.style.setProperty('--animation-state', 'running');
+            root.style.setProperty('--animation-duration', '3s');
+            
+            // Force all elements with animations to start immediately
+            const animatedElements = document.querySelectorAll('.l-navbar, .nav__link, .active');
+            animatedElements.forEach(el => {
+                el.style.animationPlayState = 'running';
+                el.style.animationDelay = '0s';
+                el.style.animationIterationCount = 'infinite';
+            });
+        });
+        
+        // Also execute immediately
+        setTimeout(() => {
+            const root = document.documentElement;
+            root.style.setProperty('--animation-state', 'running');
+        }, 0);
+    </script>
     <title>Imaginetech</title>
     <!-- Open Graph Meta Tags for link preview -->
     <meta property="og:title" content="Imaginetech" />
@@ -15,18 +50,85 @@
     <meta property="og:url" content="https://imaginetech.kr" />
     <meta property="og:type" content="website" />
     <style>
+      /* Force animations to always run */
+      * {
+        animation-play-state: running !important;
+        animation-fill-mode: both !important;
+        animation-iteration-count: infinite !important;
+        animation-delay: 0s !important;
+      }
+      
+      /* Immediate cyber effects */
+      .l-navbar {
+        animation: navbarGlow 5s ease-in-out infinite !important;
+        animation-play-state: running !important;
+      }
+      
+      .l-navbar::before {
+        animation: borderPulse 3s ease-in-out infinite !important;
+        animation-play-state: running !important;
+      }
+      
+      .active {
+        animation: activeGlow 2s ease-in-out infinite !important;
+        animation-play-state: running !important;
+      }
+      
       #matrixCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1; /* ÄÁÅÙÃ÷ µÚ¿¡ ³õÀÌµµ·Ï ³·Àº z-index ºÎ¿© */
-    }  
-    body {
-      background: linear-gradient(to top,  #00ffea, #4d85ff) !important;
-    } 
-  </style> 
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -3;
+        background: linear-gradient(135deg, #000408 0%, #0a0a0f 25%, #1a1a2e 75%, #0f1419 100%) !important;
+      }  
+      
+      body {
+        background: linear-gradient(135deg, #000408 0%, #0a0a0f 25%, #1a1a2e 75%, #0f1419 100%) !important;
+        color: #ecf0f1;
+      }
+      
+      /* Prevent white flash */
+      html {
+        background-color: #000408 !important;
+      }
+      
+      /* Force dark theme on all elements */
+      * {
+        background-color: transparent;
+      }
+      
+      /* 3D Glow effects */
+      .glow-text {
+        animation: textGlow 3s ease-in-out infinite alternate;
+      }
+      
+      @keyframes textGlow {
+        from {
+          text-shadow: 0 0 5px #00bcd4, 0 0 10px #00bcd4, 0 0 15px #00bcd4;
+        }
+        to {
+          text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff;
+        }
+      }
+      
+      /* Cyber grid overlay */
+      body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          linear-gradient(rgba(0, 188, 212, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 188, 212, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        pointer-events: none;
+        z-index: -1;
+      }
+    </style> 
 </head>
 <body id="body-pd">
     <canvas id="matrixCanvas"></canvas>
@@ -39,52 +141,56 @@
               <img id="nav-toggle" src="./Icons/Menu/menu-outline.png" width="25" height="25" class="nav__toggle" alt="nav-toggle">
             </div>
 
-            <!-- Navigation List: Main link -->
+            <!-- Navigation List Container -->
             <div class="nav__list">
-              <a href="#" class="nav__link active" data-page="./article/main.html">
-                <img src="./Icons/Menu/home-outline.png" width="25" height="25" class="nav__icon"> 
-                <span class="nav_name">Main</span>
-              </a>
-            </div> 
+              <!-- Navigation List: Main link -->
+              <div>
+                <a href="#" class="nav__link active" data-page="./article/main.html">
+                  <img src="./Icons/Menu/home-outline.png" width="25" height="25" class="nav__icon"> 
+                  <span class="nav_name">Main</span>
+                </a>
+              </div> 
 
-            <!-- Navigation link: Company page -->
-            <div>  
-              <a href="#" class="nav__link" data-page="./article/company.html">
-                <img src="./Icons/Menu/company.png" width="25" height="25" class="nav__icon"> 
-                <span class="nav_name">Company</span>
-              </a> 
-            </div>
+              <!-- Navigation link: Company page -->
+              <div>  
+                <a href="#" class="nav__link" data-page="./article/company.html">
+                  <img src="./Icons/Menu/company.png" width="25" height="25" class="nav__icon"> 
+                  <span class="nav_name">Company</span>
+                </a> 
+              </div>
 
-            <!-- Navigation link: Link page -->
-            <div>  
-              <a href="#" class="nav__link" data-page="./article/links.html">
-                <img src="./Icons/Menu/link_icon.png" width="25" height="25" class="nav__icon"> 
-                <span class="nav_name">Link</span>
-              </a> 
-            </div>
+              <!-- Navigation link: Link page -->
+              <div>  
+                <a href="#" class="nav__link" data-page="./article/links.html">
+                  <img src="./Icons/Menu/link_icon.png" width="25" height="25" class="nav__icon"> 
+                  <span class="nav_name">Link</span>
+                </a> 
+              </div>
 
-            <!-- Navigation link: Application page -->
-            <div>  
-              <a href="#" class="nav__link" data-page="./article/applications.html">
-                <img src="./Icons/Menu/applications.png" width="25" height="25" class="nav__icon"> 
-                <span class="nav_name">Application</span>
-              </a> 
+              <!-- Navigation link: Application page -->
+              <div>  
+                <a href="#" class="nav__link" data-page="./article/applications.html">
+                  <img src="./Icons/Menu/applications.png" width="25" height="25" class="nav__icon"> 
+                  <span class="nav_name">Application</span>
+                </a> 
+              </div>
+              
+              <!-- Navigation link: documents page -->
+              <div> 
+                <a href="#" class="nav__link" data-page="./article/documents.html">
+                  <img src="./Icons/Menu/documents.png" width="25" height="25" class="nav__icon">
+                  <span class="nav_name">Documents</span>
+                </a>
+              </div>        
+              <!-- Navigation link: PLC page -->
+              <div> 
+                <a href="#" class="nav__link" data-page="./plc/plc.html">
+                  <img src="./Icons/Menu/plc.png" width="25" height="25" class="nav__icon">
+                  <span class="nav_name">PLC</span>
+                </a>
+              </div>  
             </div>
-            
-            <!-- Navigation link: documents page -->
-            <div> 
-              <a href="#" class="nav__link" data-page="./article/documents.html">
-                <img src="./Icons/Menu/documents.png" width="25" height="25" class="nav__icon">
-                <span class="nav_name">Documents</span>
-              </a>
-            </div>        
-            <!-- Navigation link: PLC page -->
-            <div> 
-              <a href="#" class="nav__link" data-page="./plc/plc.html">
-                <img src="./Icons/Menu/plc.png" width="25" height="25" class="nav__icon">
-                <span class="nav_name">PLC</span>
-              </a>
-            </div>  
+          </div>
         </nav>
     </div> 
 

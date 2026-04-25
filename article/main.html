@@ -3,60 +3,278 @@
 <head>
   <meta charset="utf-8">
   <title>ImagineTech Blog</title>
-  <!-- Google Fonts for a modern, clean look -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts for Professional Tech Theme -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">'
  
   <style>  
+      /* 3D Industrial Tech Theme for Main Page */
+      body {
+        background: transparent !important;
+        color: #ecf0f1;
+        font-family: 'Poppins', 'Inter', sans-serif;
+      }
+      
       header {
-            width: 700px;
+            max-width: 700px;
+            width: 90%;
             margin: 40px auto 0 auto;  
             text-align: center;
-            padding: 2px 0 10px 0;
-            background: #15417c;
-            color: #fff;
-            border-radius: 12px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, 
+              rgba(30, 58, 138, 0.9) 0%, 
+              rgba(26, 26, 46, 0.9) 50%,
+              rgba(47, 79, 79, 0.9) 100%);
+            color: #ecf0f1;
+            border-radius: 15px;
+            border: 2px solid rgba(0, 188, 212, 0.3);
             box-sizing: border-box;
-            box-shadow: 0 4px 20px rgba(50,80,160,0.07);
+            box-shadow: 
+              0 8px 32px rgba(0, 0, 0, 0.3),
+              0 0 20px rgba(0, 188, 212, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, 
+            transparent 0%,
+            rgba(0, 188, 212, 0.1) 50%,
+            transparent 100%);
+          animation: scanline 3s ease-in-out infinite;
+        }
+        
+        @keyframes scanline {
+          0% { left: -100%; }
+          100% { left: 100%; }
         }
                  
-    header:hover {
-                    transform: translateY(-5px);
-                    /* Darker shadow on hover */
-                    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-                }
+        header:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+              0 15px 40px rgba(0, 0, 0, 0.4),
+              0 0 30px rgba(0, 188, 212, 0.4);
+        }
 
         header h1 {
-            margin: 0 0 0 0;
+            margin: 0;
+            font-family: 'Orbitron', sans-serif;
             font-size: 2.2rem;
             font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(0, 188, 212, 0.8);
+        }
+
+        header h2 {
+            margin: 0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
             letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            color: #00bcd4;
         }
 
         header h4 {
-            margin: 0 0 0 0;
-            font-size: 0.8rem;
-            font-weight: 700;
+            margin: 0;
+            font-size: 0.9rem;
+            font-weight: 500;
             letter-spacing: 1px;
+            opacity: 0.8;
         }
         
         header p {
             margin: 0;
             font-size: 1.15rem;
             font-weight: 400;
-        } 
+        }
+      
+        /* 3D Contact Info - Enhanced Dark */
+        .contact-info {
+          background: rgba(3, 3, 8, 0.9);
+          border-radius: 12px;
+          padding: 25px;
+          margin: 25px 0;
+          border: 1px solid rgba(0, 188, 212, 0.4);
+          backdrop-filter: blur(15px);
+          box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.5),
+            0 0 20px rgba(0, 188, 212, 0.1);
+        }
         
-      body {
-        background: linear-gradient(to top,   #f5f7f6, #dee6f7) !important;
-      } 
-  </style>
+        .copy-text {
+          color: #00bcd4;
+          cursor: pointer;
+          text-decoration: underline;
+          transition: all 0.3s ease;
+          padding: 5px 8px;
+          border-radius: 4px;
+          display: inline-block;
+        }
+        
+        .copy-text:hover {
+          color: #0ff;
+          background: rgba(0, 188, 212, 0.1);
+          text-shadow: 0 0 10px currentColor;
+        }
+        
+        /* 3D Company Logo Section - Enhanced Dark */
+        .company-logo {
+          background: rgba(3, 3, 8, 0.8);
+          border-radius: 18px;
+          padding: 35px;
+          margin: 35px 0;
+          border: 2px solid rgba(0, 188, 212, 0.4);
+          backdrop-filter: blur(20px);
+          position: relative;
+          box-shadow: 
+            0 12px 40px rgba(0, 0, 0, 0.6),
+            0 0 30px rgba(0, 188, 212, 0.15);
+        }
+        
+        .company-logo img {
+          filter: drop-shadow(0 0 20px rgba(0, 188, 212, 0.5));
+          transition: all 0.3s ease;
+        }
+        
+        .company-logo img:hover {
+          filter: drop-shadow(0 0 30px rgba(0, 255, 255, 0.8));
+          transform: scale(1.05);
+        }
+        
+        .company-logo h1 {
+          font-family: 'Poppins', sans-serif;
+          font-weight: 600;
+          color: #ecf0f1;
+          text-shadow: 0 0 8px rgba(0, 188, 212, 0.3);
+          margin: 20px 0;
+        }
+        
+        .company-logo h3 {
+          color: #00bcd4;
+          font-style: normal;
+          font-weight: 400;
+          text-shadow: 0 0 5px rgba(0, 188, 212, 0.2);
+        }
+        
+        /* 3D Video Container - Enhanced Dark */
+        .video-container {
+          background: rgba(3, 3, 8, 0.8);
+          border-radius: 18px;
+          padding: 25px;
+          border: 2px solid rgba(0, 188, 212, 0.4);
+          backdrop-filter: blur(15px);
+          box-shadow: 
+            0 12px 40px rgba(0, 0, 0, 0.6),
+            0 0 25px rgba(0, 188, 212, 0.1);
+        }
+        
+        video {
+          border-radius: 12px;
+          width: 33%;
+          max-width: 400px;
+          height: auto;
+          border: none;
+          box-shadow: none;
+          background: transparent;
+          display: block;
+          margin: 0 auto;
+        }
+        
+        /* 모바일 반응형 스타일 */
+        @media (max-width: 768px) {
+          header {
+            width: 95%;
+            margin: 20px auto 0 auto;
+            padding: 20px 15px;
+          }
+          
+          header h2 {
+            font-size: 1.4rem;
+          }
+          
+          header h4 {
+            font-size: 0.8rem;
+            text-align: center !important;
+          }
+          
+          .contact-info {
+            text-align: left;
+            padding: 15px;
+            margin: 15px 0;
+          }
+          
+          .company-logo {
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+          }
+          
+          .company-logo img {
+            max-width: 100%;
+            width: 250px;
+            height: auto;
+          }
+          
+          .company-logo h1 {
+            font-size: 1.2rem;
+            padding: 0 10px;
+            line-height: 1.4;
+          }
+          
+          .company-logo h3 {
+            font-size: 1rem;
+            text-align: center !important;
+          }
+          
+          .video-container {
+            padding: 15px;
+          }
+          
+          video {
+            width: 50% !important;
+            max-width: 300px !important;
+            height: auto !important;
+            border: none !important;
+            box-shadow: none !important;
+            display: block !important;
+            margin: 0 auto !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          header {
+            padding: 15px 10px;
+          }
+          
+          header h2 {
+            font-size: 1.2rem;
+          }
+          
+          .company-logo h1 {
+            font-size: 1rem;
+          }
+          
+          .contact-info p {
+            font-size: 0.9rem;
+          }
+        }
+      </style>
 </head>
 <body> 
-  <header >
+  <header class="glow-text">
     <h2 style="text-align: center;">Welcome to the ImagineTech !</h2>    
     <h4 style="text-align: right;">Copyright&copy; 2025 All rights reserved by Imaginetech &nbsp; &nbsp;</h4> 
   </header>
  
-  <div  style="text-align: right;">
+  <div class="contact-info" style="text-align: right;">
     <br>
     <p>
       Web : <span class="copy-text" onclick="copyToClipboard('imaginetech.kr')">imaginetech.kr</span>
@@ -69,17 +287,17 @@
   </div>
   <br>
   <p> </p>
-  <div class="CI Logo" style="text-align: center;">
-    <img src="./image/Imaginetech_CI.png" width="300" height="120" alt="" title="">
+  <div class="company-logo CI Logo" style="text-align: center;">
+    <img src="./image/Imaginetech_CI.png" width="300" height="120" alt="ImagineTech Logo" title="ImagineTech - Industrial Automation Specialists">
     <h3 style="text-align: right;">Imagine your dream come true</h3>
    <br>
-    <h1>Specialized in PLC Programming and Automation plant programming in C & C#</h1>
+    <h1 class="glow-text">Specialized in PLC Programming and Automation plant programming in C & C#</h1>
   </div>
   <br>
   <br>
   <br>
   <br>
-  <div style="text-align: center;">
+  <div class="video-container" style="text-align: center;">
     <video width="560" height="316" src="./Video/CenteringRobot.mp4" title="Centering Robot" autoplay muted loop controls> 
     </video>
   </div>

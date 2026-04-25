@@ -9,8 +9,21 @@ const showMenu = (toggleId, navbarId, bodyId) => {
 
     if (toggle && navbar && bodypadding) {
         toggle.addEventListener('click', () => {
-            navbar.classList.toggle('expander');
-            bodypadding.classList.toggle('body-pd');
+            // 모바일 화면 감지
+            const isMobile = window.innerWidth <= 576;
+            
+            if (isMobile) {
+                // 모바일에서는 nav__list 토글
+                const navList = navbar.querySelector('.nav__list');
+                if (navList) {
+                    navList.classList.toggle('show');
+                }
+            } else {
+                // 데스크톱에서는 기존 방식
+                navbar.classList.toggle('expander');
+                bodypadding.classList.toggle('body-pd');
+            }
+            
             // If you want tooltips to disappear immediately when expanding
             hideTooltip();
         })
@@ -101,6 +114,9 @@ function hideTooltip() {
 
 // Add tooltip event listeners within DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Force CSS animations to restart and stay active
+    forceCyberAnimations();
+    
     // --- Page Loading Functionality ---
     const menuLinks = document.querySelectorAll('.nav__link:not(.collapse), .collapse__sublink');
     const contentAreaH1 = document.querySelector('#content-area h1');
@@ -117,6 +133,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 const pageTitle = nameSpan ? nameSpan.textContent : this.textContent.trim(); // Use textContent for sublinks
                 if (contentAreaH1) {
                     contentAreaH1.textContent = pageTitle;
+                }
+                
+                // 모바일에서 메뉴 클릭 시 메뉴 자동 닫기
+                const isMobile = window.innerWidth <= 576;
+                if (isMobile) {
+                    const navbar = document.getElementById('navbar');
+                    const navList = navbar.querySelector('.nav__list');
+                    if (navList && navList.classList.contains('show')) {
+                        navList.classList.remove('show');
+                    }
                 }
             }
         });
@@ -158,6 +184,92 @@ function copyToClipboard(text) {
     });
 }
 
+// Force cyber animations to stay active and restart if needed
+function forceCyberAnimations() {
+    const navbar = document.querySelector('.l-navbar');
+    const navLinks = document.querySelectorAll('.nav__link');
+    const activeLinks = document.querySelectorAll('.nav__link.active');
+    
+    // Force all animations to run
+    document.documentElement.style.setProperty('--animation-state', 'running');
+    document.documentElement.style.setProperty('--animation-duration', '3s');
+    
+    if (navbar) {
+        // Force navbar glow animation with inline styles
+        navbar.style.animation = 'navbarGlow 5s ease-in-out infinite';
+        navbar.style.animationPlayState = 'running';
+        navbar.style.animationFillMode = 'both';
+        navbar.style.willChange = 'background, box-shadow';
+    }
+    
+    // Ensure all nav links have proper animation setup
+    navLinks.forEach((link, index) => {
+        link.style.setProperty('--index', index);
+        link.style.animationPlayState = 'running';
+        
+        // Force pseudo-element animations via class manipulation
+        link.classList.add('cyber-active');
+    });
+    
+    // Force active link glow animation
+    activeLinks.forEach(activeLink => {
+        activeLink.style.animation = 'activeGlow 2s ease-in-out infinite';
+        activeLink.style.animationPlayState = 'running';
+        activeLink.style.animationFillMode = 'both';
+    });
+    
+    console.log('Cyber animations forcefully activated');
+}
+
+// Use requestAnimationFrame for continuous monitoring
+function monitorAnimations() {
+    const navbar = document.querySelector('.l-navbar');
+    const activeLinks = document.querySelectorAll('.nav__link.active');
+    
+    if (navbar) {
+        // Check if animation is paused and restart
+        const computedStyle = window.getComputedStyle(navbar);
+        if (computedStyle.animationPlayState === 'paused') {
+            navbar.style.animationPlayState = 'running';
+        }
+    }
+    
+    activeLinks.forEach(activeLink => {
+        const computedStyle = window.getComputedStyle(activeLink);
+        if (computedStyle.animationPlayState === 'paused') {
+            activeLink.style.animationPlayState = 'running';
+        }
+    });
+    
+    // Continue monitoring
+    requestAnimationFrame(monitorAnimations);
+}
+
+// Handle visibility changes to restart animations
+document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+        // Page is now visible, restart all animations
+        forceCyberAnimations();
+        setTimeout(() => {
+            forceCyberAnimations();
+        }, 100);
+    }
+});
+
+// Restart animations every 10 seconds to ensure they don't stop
+setInterval(() => {
+    forceCyberAnimations();
+    
+    // Force CSS custom property updates
+    document.documentElement.style.setProperty('--animation-state', 'paused');
+    setTimeout(() => {
+        document.documentElement.style.setProperty('--animation-state', 'running');
+    }, 50);
+}, 5000);
+
+// Start continuous monitoring
+requestAnimationFrame(monitorAnimations);
+
 // --- Content Loading Function ---
 function loadContent(pagePath) {
     const contentContainer = document.getElementById('content-container');
@@ -194,7 +306,7 @@ function loadContent(pagePath) {
 }
 
  
-// <!-- Matrix Code Rain with 5-Second Duration -->
+// 3D Particle System for Industrial Tech Theme
 // Canvas setup
 const canvas = document.getElementById('matrixCanvas');
 const ctx = canvas.getContext('2d');
@@ -203,117 +315,170 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// Define code fragments (split the provided code into words and symbols)
-const codeFragments = [
-    "TITLE", "=FOR", "DEBUG", "//", "FOR", "DEBUG",
-    "//", "A", "#RFLAG", "//", "JC", "NRST",
-    "//", "BE", "NETWORK", "TITLE", "=",
-    "//////////////////////////",
-    "////", "CHECK", "RESET", "FLAG", "ON",
-    "/////////////////////////",
-    "A", "#RFLAG;", "JCN", "NRST;", "//", "NOT", "RESET", "OF", "OUTPUT",
-    "//Reset", "Flag(RFLAG)가", "ON이면", "출력", "OUT은", "0.0으로", "Clear한다.",
-    "L", "0.000000e+000;", "JU", "ROUT;", "//", "ACCUMULATOR", "값을", "출력",
-    "NETWORK", "TITLE", "=",
-    "///////////////////////////",
-    "////", "CHECK", "PRESET", "FLAG", "ON",
-    "//////////////////////////",
-    "NRST:", "A", "#PFLAG;", "JCN", "NPRE;", "//", "NOT", "PRESET",
-    "//", "PRESET", "Flag(PFLAG)가", "ON되면", "출력", "OUT은", "Preset", "값", "PVAL으로", "Setting", "한다.",
-    "L", "#PVAL;", "JU", "ROUT;"
-];
+// Industrial tech theme particles
+const particles = [];
+const particleCount = window.innerWidth <= 768 ? 50 : 100;
+const connectionDistance = 120;
 
-// Calculate font size and number of columns
-const fontSize = 14;
-const columns = Math.floor(canvas.width / fontSize) - 1;
+// Particle class for 3D-like movement
+class Particle {
+    constructor() {
+        this.reset();
+        this.opacity = Math.random() * 0.8 + 0.2;
+        this.baseSize = Math.random() * 3 + 1;
+        this.pulseSpeed = Math.random() * 0.02 + 0.01;
+        this.pulseOffset = Math.random() * Math.PI * 2;
+    }
+    
+    reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.z = Math.random() * 500 + 100; // Depth for 3D effect
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.vz = (Math.random() - 0.5) * 2;
+    }
+    
+    update() {
+        // 3D movement
+        this.x += this.vx;
+        this.y += this.vy;
+        this.z += this.vz;
+        
+        // Wrap around screen
+        if (this.x < 0) this.x = canvas.width;
+        if (this.x > canvas.width) this.x = 0;
+        if (this.y < 0) this.y = canvas.height;
+        if (this.y > canvas.height) this.y = 0;
+        if (this.z < 100) this.z = 600;
+        if (this.z > 600) this.z = 100;
+    }
+    
+    draw() {
+        // Calculate size based on depth (3D perspective)
+        const perspective = 500 / this.z;
+        const size = this.baseSize * perspective;
+        const alpha = this.opacity * perspective;
+        
+        // Pulsing effect
+        const pulse = Math.sin(Date.now() * this.pulseSpeed + this.pulseOffset) * 0.3 + 0.7;
+        
+        // Industrial blue-gray gradient
+        const gradient = ctx.createRadialGradient(
+            this.x, this.y, 0,
+            this.x, this.y, size * 3
+        );
+        gradient.addColorStop(0, `rgba(100, 149, 237, ${alpha * pulse})`); // Steel blue
+        gradient.addColorStop(0.7, `rgba(70, 130, 180, ${alpha * pulse * 0.5})`); // Steel blue darker
+        gradient.addColorStop(1, `rgba(47, 79, 79, 0)`); // Dark slate gray
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, size, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Core bright spot
+        ctx.fillStyle = `rgba(176, 196, 222, ${alpha * pulse * 0.8})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, size * 0.3, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
 
-// Arrays to store the position and properties of each column
-const drops = [];         // Y-positions
-const wordIndices = [];   // Which word is currently being displayed
-const speeds = [];        // How fast each column falls
-const speedRatio = 5; // Speed ratio for the falling effect
-// Initialize arrays
-for (let i = 0; i < columns; i++) {
-    drops[i] = Math.floor(Math.random() * canvas.height / fontSize) * -1;
-    wordIndices[i] = Math.floor(Math.random() * codeFragments.length);
-    speeds[i] = (0.5 + Math.random() * 1.5)/speedRatio; // Different speeds for each column
+// Initialize particles
+for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+}
+
+// Draw connections between nearby particles
+function drawConnections() {
+    ctx.strokeStyle = 'rgba(119, 136, 153, 0.3)'; // Light slate gray
+    ctx.lineWidth = 1;
+    
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < connectionDistance) {
+                const opacity = (1 - distance / connectionDistance) * 0.5;
+                ctx.strokeStyle = `rgba(119, 136, 153, ${opacity})`;
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+// Grid background for industrial feel
+function drawIndustrialGrid() {
+    const gridSize = 50;
+    ctx.strokeStyle = 'rgba(70, 130, 180, 0.1)';
+    ctx.lineWidth = 0.5;
+    
+    // Vertical lines
+    for (let x = 0; x < canvas.width; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+    }
+    
+    // Horizontal lines
+    for (let y = 0; y < canvas.height; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+    }
 }
 
 // Variables to store animation and timer IDs
 let animationId;
 let timerId;
 
-// Animation function
-function draw() {  
-    // Adjust this value to control the rainflow effect
-    const rainflowEffect = 0.1; 
-    // Semi-transparent black overlay to create fading effect
-    ctx.fillStyle = `rgba(0, 0, 0, ${rainflowEffect})`;
+// Main animation function
+function drawIndustrialParticles() {
+    // Clear canvas with dark industrial background
+    ctx.fillStyle = 'rgba(25, 25, 35, 0.1)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Set text style
-    ctx.font = fontSize + 'px monospace';
-
-    // Draw words for each column
-    for (let i = 0; i < drops.length; i++) {
-        // Get current word for this column
-        const wordIdx = wordIndices[i];
-        const text = codeFragments[wordIdx];
-        
-        // Calculate position
-        const x = i * fontSize;
-        const y = Math.floor(drops[i]) * fontSize;
-        
-        // Only draw if within screen bounds
-        if (y > 0 && y < canvas.height) {
-            // Occasionally highlight words in white
-            if (Math.random() > 0.95) {
-                ctx.fillStyle = '#FFF'; // White highlight
-            } else {
-                ctx.fillStyle = '#0F0'; // Default matrix green
-            }
-            ctx.fillText(text, x, y);
-        }
-
-        // Reset when word reaches bottom of screen
-        if (y > canvas.height) {
-            drops[i] = 0;
-            wordIndices[i] = Math.floor(Math.random() * codeFragments.length);
-            speeds[i] = (0.5 + Math.random() * 1.5) /speedRatio; // Reset speed
-        }
-        
-        // Increment Y position based on speed
-        drops[i] += speeds[i];
-        
-        // Occasionally change the word
-        if (Math.random() > 0.98) {
-            wordIndices[i] = Math.floor(Math.random() * codeFragments.length);
-        }
-    }
-
-    // Request next animation frame
-    animationId = requestAnimationFrame(draw);
+    
+    // Draw industrial grid
+    drawIndustrialGrid();
+    
+    // Update and draw particles
+    particles.forEach(particle => {
+        particle.update();
+        particle.draw();
+    });
+    
+    // Draw connections
+    drawConnections();
+    
+    animationId = requestAnimationFrame(drawIndustrialParticles);
 }
 
-function stopMatrix() {
+function stopIndustrialMatrix() {
     if (animationId) {
         cancelAnimationFrame(animationId);
         animationId = null;
         
-        // 캔버스 내용을 클리어하고 DOM에서 삭제
+        // Clear canvas and remove
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        canvas.remove(); 
-
-        // 배경색을 흰색으로 변경
-        document.body.style.backgroundColor = 'white';
-
-        // 만약 메인 컨텐츠의 텍스트 색상 등도 변경이 필요하면 아래처럼 조정
+        canvas.remove();
+        
+        // Change background to industrial gradient
+        document.body.style.background = 'linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%)';
+        
         const contentContainer = document.getElementById('content-container');
         if (contentContainer) {
-            contentContainer.style.color = 'black';
+            contentContainer.style.color = '#ecf0f1';
         }
         
-        // main.html을 로드 (동적으로 content-container에 삽입)
+        // Load main.html
         loadContent('./article/main.html');
     }
     
@@ -322,27 +487,33 @@ function stopMatrix() {
     }
 }
 
-// Handle window resize
+// Handle window resize for 3D particles
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     
-    // Recalculate number of columns
-    const newColumns = Math.floor(canvas.width / fontSize) - 1;
+    // Reset particles to new dimensions
+    particles.forEach(particle => {
+        if (particle.x > canvas.width) particle.x = canvas.width;
+        if (particle.y > canvas.height) particle.y = canvas.height;
+    });
     
-    // Adjust array sizes
-    while (drops.length < newColumns) {
-        drops.push(Math.random() * canvas.height / fontSize * -1);
-        wordIndices.push(Math.floor(Math.random() * codeFragments.length));
-        speeds.push(0.5 + Math.random() * 1.5);
+    // 네비게이션 리사이즈 처리
+    const navbar = document.getElementById('navbar');
+    const navList = navbar ? navbar.querySelector('.nav__list') : null;
+    const isMobile = window.innerWidth <= 576;
+    
+    if (navList) {
+        if (!isMobile && navList.classList.contains('show')) {
+            // 데스크톱으로 변경시 모바일 메뉴 상태 초기화
+            navList.classList.remove('show');
+        }
     }
-    drops.length = newColumns;
-    wordIndices.length = newColumns;
-    speeds.length = newColumns;
 });
 
-// Start animation when page loads
-animationId = requestAnimationFrame(draw);
+// Start 3D particle animation when page loads
+animationId = requestAnimationFrame(drawIndustrialParticles);
 
-// Stop animation after 5 seconds
-timerId = setTimeout(stopMatrix, 5000);
+// Stop animation after duration (모바일에서는 3초, 데스크톱에서는 5초)
+const animationDuration = window.innerWidth <= 768 ? 3000 : 5000;
+timerId = setTimeout(stopIndustrialMatrix, animationDuration);

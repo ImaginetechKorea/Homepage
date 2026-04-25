@@ -1,53 +1,178 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">  
-    <style> 
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
       body {
-        background: linear-gradient(to top,   #f5f7f6, #dee6f7) !important;
-      } 
-      </style>
+        background: transparent !important;
+        color: #ecf0f1;
+        font-family: 'Poppins', 'Inter', sans-serif;
+      }
+      
+      .settings-content {
+        padding: 25px;
+        max-width: 900px;
+        margin: 0 auto;
+        background: rgba(3, 3, 8, 0.9);
+        border-radius: 15px;
+        border: 1px solid rgba(0, 188, 212, 0.3);
+        backdrop-filter: blur(15px);
+        box-shadow: 
+          0 8px 32px rgba(0, 0, 0, 0.6),
+          0 0 20px rgba(0, 188, 212, 0.1);
+      }
+      
+      .settings-content h2 {
+        color: #00bcd4;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        border-bottom: 2px solid #4682b4;
+        padding-bottom: 12px;
+        margin-bottom: 20px;
+        margin-top: 35px;
+        text-shadow: 0 0 15px rgba(0, 188, 212, 0.5);
+        position: relative;
+      }
+      
+      .settings-content h2::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, #0ff, #00bcd4);
+        animation: glow 2s ease-in-out infinite alternate;
+      }
+      
+      @keyframes glow {
+        from { box-shadow: 0 0 5px #0ff; }
+        to { box-shadow: 0 0 15px #0ff; }
+      }
+      
+      .settings-content h2:first-child {
+        margin-top: 0;
+      }
+      
+      .settings-content a {
+        display: block;
+        padding: 15px 20px;
+        margin: 12px 0;
+        background: linear-gradient(135deg, 
+          rgba(70, 130, 180, 0.2) 0%, 
+          rgba(26, 26, 46, 0.6) 100%);
+        border-radius: 8px;
+        text-decoration: none;
+        color: #ecf0f1;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0, 188, 212, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .settings-content a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+          transparent 0%,
+          rgba(0, 255, 255, 0.1) 50%,
+          transparent 100%);
+        transition: left 0.5s ease;
+      }
+      
+      .settings-content a:hover::before {
+        left: 100%;
+      }
+      
+      .settings-content a:hover {
+        background: linear-gradient(135deg, 
+          rgba(0, 188, 212, 0.3) 0%, 
+          rgba(70, 130, 180, 0.4) 100%);
+        transform: translateX(8px) scale(1.02);
+        border-color: #0ff;
+        box-shadow: 
+          0 8px 25px rgba(0, 0, 0, 0.4),
+          0 0 20px rgba(0, 188, 212, 0.3);
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+      }
+      
+      /* 모바일 최적화 */
+      @media (max-width: 768px) {
+        .settings-content {
+          padding: 15px;
+        }
+        
+        .settings-content h2 {
+          font-size: 1.3rem;
+        }
+        
+        .settings-content a {
+          padding: 15px 12px;
+          margin: 10px 0;
+          font-size: 1rem;
+          min-height: 48px; /* 터치 친화적 크기 */
+          display: flex;
+          align-items: center;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .settings-content {
+          padding: 10px;
+        }
+        
+        .settings-content h2 {
+          font-size: 1.2rem;
+        }
+        
+        .settings-content a {
+          padding: 18px 15px;
+          font-size: 1.1rem;
+        }
+      }
+    </style>
 </head>
 <body> 
     <div class="settings-content"> 
         <h2>AI</h2>
         <a href="https://chatgpt.com/" target="_blank">ChatGPT</a>
-        <br>
         <a href="https://gemini.com/" target="_blank">Gemini</a>
-        <br>
         <a href="https://claude.ai/" target="_blank">Claude.ai</a> 
+        
         <h2>Development</h2>
         <a href="https://github.com/" target="_blank">Github</a>
-        <br>
+        
         <h2>Mail</h2>
-        <a href="https://Gamil.com/" target="_blank">Gamil</a>
-        <br>
+        <a href="https://Gamil.com/" target="_blank">Gmail</a>
         <a href="https://outlook.com/" target="_blank">Outlook</a>
-        <br>
+        
         <h2>Search</h2>
-        <a href="https://google.com/" target="_blank">google</a>  
-        <br> 
-        <a href="https://images.google.com/" target="_blank">google images search</a>  
-        <br>
+        <a href="https://google.com/" target="_blank">Google</a>  
+        <a href="https://images.google.com/" target="_blank">Google Images Search</a>  
+        
         <h2>Automation</h2>
-        <a href="https://ls-electric.com/" target="_blank">ls-electric</a>  
-        <br> 
-        <a href="https://sieportal.siemens.com/" target="_blank">siemens</a> 
+        <a href="https://ls-electric.com/" target="_blank">LS Electric</a>  
+        <a href="https://sieportal.siemens.com/" target="_blank">Siemens</a> 
+        
         <h2>Translate</h2>
-        <a href="https://translate.google.com" target="_blank">translate.google.com</a>
-        <br>   
-        <a href="https://www.deepl.com/" target="_blank">deepl</a>  
-        <br> 
+        <a href="https://translate.google.com" target="_blank">Google Translate</a>
+        <a href="https://www.deepl.com/" target="_blank">DeepL</a>  
+        
         <h2>Utility</h2>
-        <a href="https://yourtablecloth.app/" target="_blank">tablecloth</a> 
-        <br> 
-        <a href="https://teus.me/" target="_blank">teus.me(Hoax Eliminator)</a> 
-        <br> 
-        <h2>Shoping</h2>
+        <a href="https://yourtablecloth.app/" target="_blank">TableCloth</a> 
+        <a href="https://teus.me/" target="_blank">Teus.me (Hoax Eliminator)</a> 
+        
+        <h2>Shopping</h2>
         <a href="https://danawa.com/" target="_blank">Danawa</a> 
-        <br> 
-        <a href="https://aliexpress.com/" target="_blank">Aliexpress</a> 
-        <br>
+        <a href="https://aliexpress.com/" target="_blank">AliExpress</a> 
+    </div>
+</body>
+</html>
     </div>
 </body>
 </html>
