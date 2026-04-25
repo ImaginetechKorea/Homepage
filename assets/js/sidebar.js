@@ -1,8 +1,51 @@
 (function () {
     let tooltipElement = null;
+    let mobileMenuOverlay = null;
+
+    function isMobileViewport() {
+        return window.innerWidth <= 576;
+    }
 
     function getBodyExpandedClass() {
         return document.body && document.body.id === 'body-pd' ? 'body-pd' : 'menu-expanded';
+    }
+
+    function createMobileMenuOverlay() {
+        if (mobileMenuOverlay || !document.body) {
+            return mobileMenuOverlay;
+        }
+
+        mobileMenuOverlay = document.createElement('button');
+        mobileMenuOverlay.type = 'button';
+        mobileMenuOverlay.className = 'nav-overlay';
+        mobileMenuOverlay.setAttribute('aria-label', 'Close navigation menu');
+        mobileMenuOverlay.hidden = true;
+        document.body.appendChild(mobileMenuOverlay);
+        return mobileMenuOverlay;
+    }
+
+    function setMobileMenuState(navbar, toggle, isOpen) {
+        const navList = navbar ? navbar.querySelector('.nav__list') : null;
+        const overlay = createMobileMenuOverlay();
+        if (!navList || !document.body) {
+            return;
+        }
+
+        navList.classList.toggle('show', isOpen);
+        document.body.classList.toggle('menu-open', isOpen);
+
+        if (overlay) {
+            overlay.hidden = !isOpen;
+            overlay.classList.toggle('show', isOpen);
+        }
+
+        if (toggle) {
+            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        }
+    }
+
+    function closeMobileMenu(navbar, toggle) {
+        setMobileMenuState(navbar, toggle, false);
     }
 
     function createTooltipElement() {
@@ -70,12 +113,14 @@
         }
 
         toggle.dataset.sidebarBound = 'true';
+        toggle.setAttribute('aria-label', 'Toggle navigation menu');
+        toggle.setAttribute('aria-expanded', 'false');
         toggle.addEventListener('click', () => {
             const navList = navbar.querySelector('.nav__list');
-            const isMobile = window.innerWidth <= 576;
+            const isMobile = isMobileViewport();
 
             if (isMobile && navList) {
-                navList.classList.toggle('show');
+                setMobileMenuState(navbar, toggle, !navList.classList.contains('show'));
             } else {
                 navbar.classList.toggle('expander');
                 document.body.classList.toggle(getBodyExpandedClass());
@@ -86,6 +131,8 @@
     }
 
     function bindActiveLinks(navbar) {
+        const toggle = document.getElementById('nav-toggle');
+
         document.querySelectorAll('.nav__link').forEach((link) => {
             if (link.dataset.sidebarActiveBound === 'true') {
                 return;
@@ -98,9 +145,8 @@
                 });
                 link.classList.add('active');
 
-                const navList = navbar.querySelector('.nav__list');
-                if (window.innerWidth <= 576 && navList) {
-                    navList.classList.remove('show');
+                if (isMobileViewport()) {
+                    closeMobileMenu(navbar, toggle);
                 }
 
                 hideTooltip();
@@ -139,6 +185,50 @@
         });
     }
 
+    function bindMobileMenuDismiss(navbar, toggle) {
+        if (document.body.dataset.sidebarDismissBound === 'true') {
+            return;
+        }
+
+        document.body.dataset.sidebarDismissBound = 'true';
+        const overlay = createMobileMenuOverlay();
+
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                closeMobileMenu(navbar, toggle);
+            });
+        }
+
+        document.addEventListener('click', (event) => {
+            if (!isMobileViewport()) {
+                return;
+            }
+
+            const navList = navbar.querySelector('.nav__list');
+            if (!navList || !navList.classList.contains('show')) {
+                return;
+            }
+
+            if (navbar.contains(event.target)) {
+                return;
+            }
+
+            closeMobileMenu(navbar, toggle);
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && isMobileViewport()) {
+                closeMobileMenu(navbar, toggle);
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (!isMobileViewport()) {
+                closeMobileMenu(navbar, toggle);
+            }
+        });
+    }
+
     function initSharedSidebar() {
         const navbar = document.getElementById('navbar');
         const toggle = document.getElementById('nav-toggle');
@@ -151,6 +241,7 @@
         bindActiveLinks(navbar);
         bindCollapseLinks();
         bindTooltips();
+        bindMobileMenuDismiss(navbar, toggle);
     }
 
     if (document.readyState === 'loading') {

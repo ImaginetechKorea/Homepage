@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
       body {
@@ -14,6 +15,7 @@
       
       .settings-content {
         max-width: 800px;
+        width: 100%;
         margin: 0 auto;
         background: rgba(3, 3, 8, 0.8);
         border-radius: 18px;
@@ -31,6 +33,16 @@
       
       .messenger-card p {
         line-height: 1.6;
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 12px;
+        }
+
+        .settings-content {
+          padding: 20px 16px;
+        }
       }
       </style>
 </head>

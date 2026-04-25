@@ -521,6 +521,37 @@ body.body-pd #content-area {
         --nav--width: 100%;
         --nav--height: 80px;
     }
+
+    .nav-overlay {
+        display: none;
+        position: fixed;
+        inset: var(--nav--height) 0 0;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background: rgba(4, 10, 20, 0.68);
+        backdrop-filter: blur(6px);
+        z-index: 999;
+        cursor: pointer;
+    }
+
+    .nav-overlay.show {
+        display: block;
+        animation: overlayFadeIn 0.2s ease;
+    }
+
+    @keyframes overlayFadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    body.menu-open {
+        overflow: hidden;
+    }
     
     body {
         padding: 80px 0 0 0;
@@ -577,12 +608,16 @@ body.body-pd #content-area {
         top: var(--nav--height);
         left: 0;
         width: 100%;
+        max-height: calc(100vh - var(--nav--height));
         background: linear-gradient(180deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
         flex-direction: column;
         padding: 1rem;
         border-top: 1px solid var(--steel-blue);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         backdrop-filter: blur(15px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        z-index: 1001;
     }
     
     .nav__list.show {

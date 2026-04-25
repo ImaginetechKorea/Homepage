@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8"> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <style> 
       body {
@@ -23,6 +24,7 @@
       .settings-content {
         padding: 25px;
         max-width: 900px;
+        width: 100%;
         margin: 0 auto;
         background: rgba(0, 0, 0, 0.3);
         border-radius: 14px;
@@ -59,6 +61,8 @@
         font-weight: 500;
         position: relative;
         overflow: hidden;
+        overflow-wrap: anywhere;
+        word-break: break-word;
       }
       
       .settings-content a::before {
@@ -95,11 +99,11 @@
       @media (max-width: 768px) {
         body,
         body.menu-expanded {
-          padding: 5rem 1rem 1rem 5rem;
+          padding: 5rem 0.75rem 1rem calc(var(--nav--width, 62px) + 0.75rem);
         }
 
         .settings-content {
-          padding: 15px;
+          padding: 15px 12px;
         }
         
         .settings-content h2 {
@@ -117,6 +121,11 @@
       }
       
       @media (max-width: 480px) {
+        body,
+        body.menu-expanded {
+          padding: 4.75rem 0.5rem 0.75rem calc(var(--nav--width, 62px) + 0.5rem);
+        }
+
         .settings-content {
           padding: 10px;
         }

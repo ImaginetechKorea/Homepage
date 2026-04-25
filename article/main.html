@@ -34,6 +34,7 @@
 
     .hero {
       max-width: 960px;
+      width: 100%;
       margin: 2rem auto 0;
       text-align: center;
     }
@@ -89,6 +90,7 @@
 
     .contact-info {
       max-width: 960px;
+      width: 100%;
       margin: 2rem auto 0;
       line-height: 1.8;
     }
@@ -100,7 +102,7 @@
     @media (max-width: 768px) {
       body,
       body.menu-expanded {
-        padding: 5rem 1rem 1rem 5rem;
+        padding: 5rem 0.75rem 1rem calc(var(--nav--width, 62px) + 0.75rem);
       }
 
       .hero h4,
@@ -111,6 +113,23 @@
 
       .video-container video {
         max-width: 53vw;
+      }
+
+      .company-logo h1 {
+        font-size: clamp(1.35rem, 5vw, 2rem);
+      }
+    }
+
+    @media (max-width: 480px) {
+      body,
+      body.menu-expanded {
+        padding: 4.75rem 0.5rem 0.75rem calc(var(--nav--width, 62px) + 0.5rem);
+      }
+
+      .video-container video {
+        width: 100%;
+        max-width: 240px;
+        height: auto;
       }
     }
   </style>
@@ -143,11 +162,13 @@
         <h4>Copyright&copy; 2025 All rights reserved by Imaginetech</h4> 
         <br>
         <br>
+        <br> 
       </header>
 
       <div class="company-logo CI Logo">
         <img src="../image/Imaginetech_CI.png" alt="ImagineTech Logo" title="ImagineTech - Industrial Automation Specialists">
-        <h3>Imagine your dream come true</h3>
+        <h4>Imagine your dream come true</h4>
+        <br>
         <h1 class="glow-text">Specialized in PLC Programming and Automation plant programming in C &amp; C#</h1>
       </div>
 
