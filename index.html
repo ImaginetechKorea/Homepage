@@ -82,6 +82,12 @@
         height: 100%;
         z-index: -3;
         background: linear-gradient(135deg, #000408 0%, #0a0a0f 25%, #1a1a2e 75%, #0f1419 100%) !important;
+        /* Performance optimization for canvas */
+        will-change: transform;
+        transform: translateZ(0);
+        image-rendering: optimizeSpeed;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: optimize-contrast;
       }  
       
       body {
@@ -138,7 +144,7 @@
           <div>
             <!-- Sidebar brand section with the navigation toggle icon -->
             <div class="nav__brand" style="margin-bottom: 20px;"> 
-              <img id="nav-toggle" src="./Icons/Menu/menu-outline.png" width="25" height="25" class="nav__toggle" alt="nav-toggle">
+              <img id="nav-toggle" src="./Icons/Menu/menu-outline.png" class="nav__toggle" alt="nav-toggle">
             </div>
 
             <!-- Navigation List Container -->
@@ -146,7 +152,7 @@
               <!-- Navigation List: Main link -->
               <div>
                 <a href="#" class="nav__link active" data-page="./article/main.html">
-                  <img src="./Icons/Menu/home-outline.png" width="25" height="25" class="nav__icon"> 
+                  <img src="./Icons/Menu/home-outline.png" class="nav__icon"> 
                   <span class="nav_name">Main</span>
                 </a>
               </div> 
@@ -154,7 +160,7 @@
               <!-- Navigation link: Company page -->
               <div>  
                 <a href="#" class="nav__link" data-page="./article/company.html">
-                  <img src="./Icons/Menu/company.png" width="25" height="25" class="nav__icon"> 
+                  <img src="./Icons/Menu/company.png" class="nav__icon"> 
                   <span class="nav_name">Company</span>
                 </a> 
               </div>
@@ -162,7 +168,7 @@
               <!-- Navigation link: Link page -->
               <div>  
                 <a href="#" class="nav__link" data-page="./article/links.html">
-                  <img src="./Icons/Menu/link_icon.png" width="25" height="25" class="nav__icon"> 
+                  <img src="./Icons/Menu/link_icon.png" class="nav__icon"> 
                   <span class="nav_name">Link</span>
                 </a> 
               </div>
@@ -170,7 +176,7 @@
               <!-- Navigation link: Application page -->
               <div>  
                 <a href="#" class="nav__link" data-page="./article/applications.html">
-                  <img src="./Icons/Menu/applications.png" width="25" height="25" class="nav__icon"> 
+                  <img src="./Icons/Menu/applications.png" class="nav__icon"> 
                   <span class="nav_name">Application</span>
                 </a> 
               </div>
@@ -178,14 +184,14 @@
               <!-- Navigation link: documents page -->
               <div> 
                 <a href="#" class="nav__link" data-page="./article/documents.html">
-                  <img src="./Icons/Menu/documents.png" width="25" height="25" class="nav__icon">
+                  <img src="./Icons/Menu/documents.png" class="nav__icon">
                   <span class="nav_name">Documents</span>
                 </a>
               </div>        
               <!-- Navigation link: PLC page -->
               <div> 
                 <a href="#" class="nav__link" data-page="./plc/plc.html">
-                  <img src="./Icons/Menu/plc.png" width="25" height="25" class="nav__icon">
+                  <img src="./Icons/Menu/plc.png" class="nav__icon">
                   <span class="nav_name">PLC</span>
                 </a>
               </div>  

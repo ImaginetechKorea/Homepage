@@ -117,6 +117,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Force CSS animations to restart and stay active
     forceCyberAnimations();
     
+    // Setup video performance optimization
+    setupVideoPerformanceOptimization();
+    
     // --- Page Loading Functionality ---
     const menuLinks = document.querySelectorAll('.nav__link:not(.collapse), .collapse__sublink');
     const contentAreaH1 = document.querySelector('#content-area h1');
@@ -292,6 +295,11 @@ function loadContent(pagePath) {
         .then(html => {
             console.log('Page content loaded successfully.');
             contentContainer.innerHTML = html;
+            
+            // Re-setup video optimization for newly loaded content
+            setTimeout(() => {
+                setupVideoPerformanceOptimization();
+            }, 100);
         })
         .catch(error => {
             console.error('Error loading page content:', error);
@@ -315,10 +323,12 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-// Industrial tech theme particles
+// Industrial tech theme particles - Enhanced with performance control
 const particles = [];
-const particleCount = window.innerWidth <= 768 ? 50 : 100;
-const connectionDistance = 120;
+let particleCount = window.innerWidth <= 768 ? 80 : 150; // Increased particle count
+const connectionDistance = 150; // Increased connection distance
+let isVideoPlaying = false;
+let performanceMode = false;
 
 // Particle class for 3D-like movement
 class Particle {
@@ -340,7 +350,16 @@ class Particle {
     }
     
     update() {
-        // 3D movement
+        // 3D movement with slight randomization
+        this.vx += (Math.random() - 0.5) * 0.02;
+        this.vy += (Math.random() - 0.5) * 0.02;
+        this.vz += (Math.random() - 0.5) * 0.1;
+        
+        // Limit velocity
+        this.vx = Math.max(-2, Math.min(2, this.vx));
+        this.vy = Math.max(-2, Math.min(2, this.vy));
+        this.vz = Math.max(-3, Math.min(3, this.vz));
+        
         this.x += this.vx;
         this.y += this.vy;
         this.z += this.vz;
@@ -352,6 +371,12 @@ class Particle {
         if (this.y > canvas.height) this.y = 0;
         if (this.z < 100) this.z = 600;
         if (this.z > 600) this.z = 100;
+        
+        // Occasional velocity changes for more organic movement
+        if (Math.random() < 0.005) {
+            this.vx += (Math.random() - 0.5) * 0.5;
+            this.vy += (Math.random() - 0.5) * 0.5;
+        }
     }
     
     draw() {
@@ -363,26 +388,75 @@ class Particle {
         // Pulsing effect
         const pulse = Math.sin(Date.now() * this.pulseSpeed + this.pulseOffset) * 0.3 + 0.7;
         
-        // Industrial blue-gray gradient
+        // Varied industrial colors
+        const colorVariant = Math.sin(Date.now() * 0.001 + this.pulseOffset) * 0.5 + 0.5;
+        const r = Math.floor(70 + colorVariant * 130);  // Steel blue variations
+        const g = Math.floor(100 + colorVariant * 149);
+        const b = Math.floor(180 + colorVariant * 57);
+        
+        // Industrial blue-gray gradient with color variations
         const gradient = ctx.createRadialGradient(
             this.x, this.y, 0,
             this.x, this.y, size * 3
         );
-        gradient.addColorStop(0, `rgba(100, 149, 237, ${alpha * pulse})`); // Steel blue
-        gradient.addColorStop(0.7, `rgba(70, 130, 180, ${alpha * pulse * 0.5})`); // Steel blue darker
-        gradient.addColorStop(1, `rgba(47, 79, 79, 0)`); // Dark slate gray
+        gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${alpha * pulse})`);
+        gradient.addColorStop(0.7, `rgba(${Math.floor(r*0.7)}, ${Math.floor(g*0.7)}, ${Math.floor(b*0.7)}, ${alpha * pulse * 0.5})`);
+        gradient.addColorStop(1, `rgba(47, 79, 79, 0)`);
         
         ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(this.x, this.y, size, 0, Math.PI * 2);
         ctx.fill();
         
-        // Core bright spot
-        ctx.fillStyle = `rgba(176, 196, 222, ${alpha * pulse * 0.8})`;
+        // Core bright spot with cyber cyan accent
+        if (Math.random() < 0.1) {
+            ctx.fillStyle = `rgba(0, 188, 212, ${alpha * pulse * 0.8})`;
+        } else {
+            ctx.fillStyle = `rgba(176, 196, 222, ${alpha * pulse * 0.8})`;
+        }
         ctx.beginPath();
         ctx.arc(this.x, this.y, size * 0.3, 0, Math.PI * 2);
         ctx.fill();
     }
+}
+
+// Initialize particles with performance awareness
+function initializeParticles() {
+    particles.length = 0; // Clear existing particles
+    const currentParticleCount = performanceMode ? Math.floor(particleCount * 0.3) : particleCount;
+    
+    for (let i = 0; i < currentParticleCount; i++) {
+        particles.push(new Particle());
+    }
+}
+
+// Detect video playback and adjust performance
+function setupVideoPerformanceOptimization() {
+    // Monitor video elements
+    const videos = document.querySelectorAll('video[data-performance-optimized]');
+    
+    videos.forEach(video => {
+        video.addEventListener('play', () => {
+            isVideoPlaying = true;
+            performanceMode = true;
+            console.log('Video playing - enabling performance mode');
+            initializeParticles(); // Reduce particles
+        });
+        
+        video.addEventListener('pause', () => {
+            isVideoPlaying = false;
+            performanceMode = false;
+            console.log('Video paused - disabling performance mode');
+            initializeParticles(); // Restore particles
+        });
+        
+        video.addEventListener('ended', () => {
+            isVideoPlaying = false;
+            performanceMode = false;
+            console.log('Video ended - disabling performance mode');
+            initializeParticles(); // Restore particles
+        });
+    });
 }
 
 // Initialize particles
@@ -390,33 +464,46 @@ for (let i = 0; i < particleCount; i++) {
     particles.push(new Particle());
 }
 
-// Draw connections between nearby particles
+// Draw connections between nearby particles with enhanced effects and performance optimization
 function drawConnections() {
-    ctx.strokeStyle = 'rgba(119, 136, 153, 0.3)'; // Light slate gray
-    ctx.lineWidth = 1;
+    const maxConnections = performanceMode ? 50 : 200; // Limit connections in performance mode
+    let connectionCount = 0;
     
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
+    for (let i = 0; i < particles.length && connectionCount < maxConnections; i++) {
+        for (let j = i + 1; j < particles.length && connectionCount < maxConnections; j++) {
             const dx = particles[i].x - particles[j].x;
             const dy = particles[i].y - particles[j].y;
             const distance = Math.sqrt(dx * dx + dy * dy);
             
             if (distance < connectionDistance) {
-                const opacity = (1 - distance / connectionDistance) * 0.5;
-                ctx.strokeStyle = `rgba(119, 136, 153, ${opacity})`;
+                const opacity = (1 - distance / connectionDistance) * (performanceMode ? 0.2 : 0.4);
+                const pulse = performanceMode ? 1 : Math.sin(Date.now() * 0.002 + distance * 0.01) * 0.3 + 0.7;
+                
+                // Reduced cyber cyan connections in performance mode
+                const cyanChance = performanceMode ? 0.02 : 0.05;
+                if (Math.random() < cyanChance) {
+                    ctx.strokeStyle = `rgba(0, 188, 212, ${opacity * pulse})`;
+                    ctx.lineWidth = 1.5;
+                } else {
+                    ctx.strokeStyle = `rgba(119, 136, 153, ${opacity * pulse})`;
+                    ctx.lineWidth = 1;
+                }
+                
                 ctx.beginPath();
                 ctx.moveTo(particles[i].x, particles[i].y);
                 ctx.lineTo(particles[j].x, particles[j].y);
                 ctx.stroke();
+                
+                connectionCount++;
             }
         }
     }
 }
 
-// Grid background for industrial feel
-function drawIndustrialGrid() {
+// Grid background for industrial feel with pulsing effect
+function drawIndustrialGrid(intensity = 0.1) {
     const gridSize = 50;
-    ctx.strokeStyle = 'rgba(70, 130, 180, 0.1)';
+    ctx.strokeStyle = `rgba(70, 130, 180, ${intensity})`;
     ctx.lineWidth = 0.5;
     
     // Vertical lines
@@ -434,20 +521,44 @@ function drawIndustrialGrid() {
         ctx.lineTo(canvas.width, y);
         ctx.stroke();
     }
+    
+    // Add some random glitch lines
+    if (Math.random() < 0.01) {
+        const glitchY = Math.random() * canvas.height;
+        ctx.strokeStyle = `rgba(0, 188, 212, ${Math.random() * 0.3})`;
+        ctx.lineWidth = Math.random() * 3;
+        ctx.beginPath();
+        ctx.moveTo(0, glitchY);
+        ctx.lineTo(canvas.width, glitchY);
+        ctx.stroke();
+    }
 }
 
 // Variables to store animation and timer IDs
 let animationId;
 let timerId;
 
-// Main animation function
+// Main animation function with enhanced effects and performance optimization
 function drawIndustrialParticles() {
-    // Clear canvas with dark industrial background
-    ctx.fillStyle = 'rgba(25, 25, 35, 0.1)';
+    // Performance-aware frame skipping
+    const frameSkip = performanceMode ? 2 : 1;
+    const currentFrame = Date.now();
+    
+    if (performanceMode && currentFrame % frameSkip !== 0) {
+        animationId = requestAnimationFrame(drawIndustrialParticles);
+        return;
+    }
+    
+    // Clear canvas with dark industrial background with slight trail effect
+    const trailAlpha = performanceMode ? 0.15 : 0.08;
+    ctx.fillStyle = `rgba(15, 20, 25, ${trailAlpha})`;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Draw industrial grid
-    drawIndustrialGrid();
+    // Draw industrial grid with subtle pulsing (reduced in performance mode)
+    if (!performanceMode || currentFrame % 3 === 0) {
+        const pulseIntensity = Math.sin(Date.now() * 0.001) * 0.05 + 0.1;
+        drawIndustrialGrid(pulseIntensity * (performanceMode ? 0.5 : 1));
+    }
     
     // Update and draw particles
     particles.forEach(particle => {
@@ -455,36 +566,30 @@ function drawIndustrialParticles() {
         particle.draw();
     });
     
-    // Draw connections
-    drawConnections();
+    // Draw connections (reduce frequency in performance mode)
+    if (!performanceMode || currentFrame % 2 === 0) {
+        drawConnections();
+    }
     
+    // Add scanning line effect (disabled in performance mode)
+    if (!performanceMode) {
+        const scanY = (Date.now() * 0.1) % canvas.height;
+        ctx.strokeStyle = 'rgba(0, 188, 212, 0.1)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, scanY);
+        ctx.lineTo(canvas.width, scanY);
+        ctx.stroke();
+    }
+    
+    // Continue animation loop FOREVER
     animationId = requestAnimationFrame(drawIndustrialParticles);
 }
 
 function stopIndustrialMatrix() {
-    if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-        
-        // Clear canvas and remove
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        canvas.remove();
-        
-        // Change background to industrial gradient
-        document.body.style.background = 'linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%)';
-        
-        const contentContainer = document.getElementById('content-container');
-        if (contentContainer) {
-            contentContainer.style.color = '#ecf0f1';
-        }
-        
-        // Load main.html
-        loadContent('./article/main.html');
-    }
-    
-    if (timerId) {
-        clearTimeout(timerId);
-    }
+    // This function is no longer used - matrix animation continues forever
+    // Kept for compatibility but matrix will never stop
+    console.log('Matrix animation continues forever - this function is disabled');
 }
 
 // Handle window resize for 3D particles
@@ -511,9 +616,66 @@ window.addEventListener('resize', () => {
     }
 });
 
-// Start 3D particle animation when page loads
+// Start 3D particle animation when page loads and keep it running FOREVER
 animationId = requestAnimationFrame(drawIndustrialParticles);
 
-// Stop animation after duration (모바일에서는 3초, 데스크톱에서는 5초)
-const animationDuration = window.innerWidth <= 768 ? 3000 : 5000;
-timerId = setTimeout(stopIndustrialMatrix, animationDuration);
+// Load main content after 2 seconds but KEEP the matrix animation running
+setTimeout(() => {
+    loadContent('./article/main.html');
+    
+    // Additional video optimization after content load
+    setTimeout(() => {
+        const videos = document.querySelectorAll('video');
+        videos.forEach(video => {
+            // Enable hardware acceleration
+            video.style.transform = 'translateZ(0)';
+            video.style.willChange = 'transform';
+            video.style.backfaceVisibility = 'hidden';
+            
+            // Optimize playback
+            video.preload = 'auto';
+            video.setAttribute('webkit-playsinline', 'true');
+            video.setAttribute('playsinline', 'true');
+            
+            console.log('Video optimization applied');
+        });
+    }, 500);
+}, 2000);
+
+// Ensure animation never stops - restart if it somehow gets cancelled
+setInterval(() => {
+    if (!animationId) {
+        console.log('Restarting matrix animation');
+        animationId = requestAnimationFrame(drawIndustrialParticles);
+    }
+    
+    // Memory management for performance
+    if (performanceMode && particles.length > particleCount * 0.3) {
+        console.log('Reducing particles for video performance');
+        particles.length = Math.floor(particleCount * 0.3);
+    } else if (!performanceMode && particles.length < particleCount) {
+        const missing = particleCount - particles.length;
+        for (let i = 0; i < missing; i++) {
+            particles.push(new Particle());
+        }
+    }
+}, 1000);
+
+// Add mouse interaction to particles
+canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    
+    // Attract particles to mouse
+    particles.forEach(particle => {
+        const dx = mouseX - particle.x;
+        const dy = mouseY - particle.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < 100) {
+            particle.vx += dx * 0.0001;
+            particle.vy += dy * 0.0001;
+        }
+    });
+});
