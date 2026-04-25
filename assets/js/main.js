@@ -1,3 +1,11 @@
+function isCompactNavigationMode() {
+    const screenWidth = window.screen && typeof window.screen.width === 'number'
+        ? window.screen.width
+        : window.innerWidth;
+
+    return Math.min(window.innerWidth, screenWidth) <= 768;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Force CSS animations to restart and stay active
     forceCyberAnimations();
@@ -24,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 // 모바일에서 메뉴 클릭 시 메뉴 자동 닫기
-                const isMobile = window.innerWidth <= 576;
+                const isMobile = isCompactNavigationMode();
                 if (isMobile) {
                     const navbar = document.getElementById('navbar');
                     const navList = navbar.querySelector('.nav__list');
@@ -253,7 +261,7 @@ window.addEventListener('resize', () => {
     const navbar = document.getElementById('navbar');
     const navList = navbar ? navbar.querySelector('.nav__list') : null;
 
-    if (navList && window.innerWidth > 576) {
+    if (navList && !isCompactNavigationMode()) {
         navList.classList.remove('show');
     }
 });

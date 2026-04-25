@@ -3,7 +3,11 @@
     let mobileMenuOverlay = null;
 
     function isMobileViewport() {
-        return window.innerWidth <= 576;
+        const screenWidth = window.screen && typeof window.screen.width === 'number'
+            ? window.screen.width
+            : window.innerWidth;
+
+        return Math.min(window.innerWidth, screenWidth) <= 768;
     }
 
     function getBodyExpandedClass() {
@@ -76,7 +80,7 @@
 
     function showTooltip(event) {
         const navbar = document.getElementById('navbar');
-        if (!navbar || navbar.classList.contains('expander') || window.innerWidth <= 576) {
+        if (!navbar || navbar.classList.contains('expander') || isMobileViewport()) {
             return;
         }
 
