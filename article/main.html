@@ -63,35 +63,22 @@
     }
 
     .company-logo__frame::before {
-      content: "";
-      position: absolute;
-      inset: 4% 3% 8% 2%;
-      z-index: 0;
-      background:
-        radial-gradient(circle at 18% 52%, rgba(218, 236, 255, 0.30), transparent 16%),
-        radial-gradient(circle at 35% 24%, rgba(255, 255, 255, 0.28), transparent 18%),
-        radial-gradient(circle at 58% 48%, rgba(214, 235, 255, 0.20), transparent 20%),
-        radial-gradient(circle at 82% 32%, rgba(255, 255, 255, 0.18), transparent 15%),
-        radial-gradient(circle at 88% 68%, rgba(180, 220, 255, 0.14), transparent 14%);
-      filter: blur(14px);
-      opacity: 0.9;
-      pointer-events: none;
+      content: none;
     }
 
     .company-logo__crop {
       position: relative;
       display: inline-block;
+      width: min(300px, 70vw);
+      line-height: 0;
       overflow: hidden;
       z-index: 1;
     }
 
-    .company-logo img {
+    .company-logo__outline {
       position: relative;
-      display: block;
-      width: calc(min(300px, 70vw) + 10px);
-      max-width: none;
-      height: auto;
-      margin: -5px -4px -2px -6px;
+      display: inline-block;
+      z-index: 1;
       filter:
         drop-shadow(1px 0 0 rgba(245, 250, 255, 0.92))
         drop-shadow(-1px 0 0 rgba(245, 250, 255, 0.92))
@@ -101,6 +88,16 @@
         drop-shadow(-1px 1px 0 rgba(245, 250, 255, 0.88))
         drop-shadow(1px -1px 0 rgba(245, 250, 255, 0.88))
         drop-shadow(-1px -1px 0 rgba(245, 250, 255, 0.88));
+    }
+
+    .company-logo img {
+      position: relative;
+      display: block;
+      width: calc(min(300px, 70vw) + 12px);
+      max-width: none;
+      height: auto;
+      margin: -5px -6px -4px -6px;
+      filter: none !important;
     }
 
     .company-logo h3 {
@@ -201,8 +198,10 @@
 
       <div class="company-logo CI Logo" align="center" background="blue">
         <div class="company-logo__frame">
-          <div class="company-logo__crop">
-            <img src="../image/Imaginetech_CI.png" alt="ImagineTech Logo" title="ImagineTech - Industrial Automation Specialists">
+          <div class="company-logo__outline">
+            <div class="company-logo__crop">
+              <img src="../image/Imaginetech_CI.png" alt="ImagineTech Logo" title="ImagineTech - Industrial Automation Specialists">
+            </div>
           </div>
         </div>
         <div align="right"> <h5>Imagine your dream come true</h5> </div>
