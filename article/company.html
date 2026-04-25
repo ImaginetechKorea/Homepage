@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> ImagineTech </title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
         * {
             margin: 0;
@@ -13,33 +14,43 @@
         }
         
         body {
-            background: linear-gradient(135deg, #000408 0%, #0a0a0f 25%, #1a1a2e 75%, #0f1419 100%) !important;
+            background: transparent !important;
             font-family: 'Poppins', 'Inter', sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 2rem 1rem 2rem 5rem;
             color: #ecf0f1;
             line-height: 1.6;
         } 
+
+        body.menu-expanded {
+            padding-left: 16rem;
+        }
+
+        .page-content {
+            position: relative;
+            z-index: 1;
+        }
 
         header {
             width: 800px;
             margin: 40px auto 0 auto;
             text-align: center;
             padding: 36px 0 24px 0;
-            background: rgba(3, 3, 8, 0.8);
+            background: rgba(0, 0, 0, 0.4);
             color: #ecf0f1;
+            border: 1px solid rgba(0, 188, 212, 0.4);
             border-radius: 18px;
-            border: 2px solid rgba(0, 188, 212, 0.4);
             backdrop-filter: blur(15px);
             box-sizing: border-box;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 188, 212, 0.1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 10;
         }
                 
         header:hover {
-                    transform: translateY(-5px);
-                    /* Darker shadow on hover */
-                    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-                }
+            transform: translateY(-5px);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+        }
 
         header h1 {
             margin: 0 0 16px 0;
@@ -61,25 +72,28 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 40px 32px;
+            position: relative;
+            z-index: 10;
         }
 
         .article {
-            /* Gray gradient background that complements the header */
-            background: linear-gradient(120deg, #7d7d7d 80%, #9a9a9a 100%);
+            background: rgba(0, 0, 0, 0.3);
             color: #fff;
+            border: 1px solid rgba(0, 188, 212, 0.3);
             border-radius: 14px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
             padding: 32px 28px;
             display: flex;
             flex-direction: column;
             height: 100%;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
                 
         .article:hover {
             transform: translateY(-5px);
-            /* Darker shadow on hover */
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+            border-color: rgba(0, 188, 212, 0.6);
         }
 
         .article h2 {
@@ -97,7 +111,7 @@
             bottom: 0;
             width: 60px;
             height: 3px;
-            background-color: rgba(255, 255, 255, 0.4);
+            background-color: rgba(0, 188, 212, 0.6);
         }
 
         .article p {
@@ -126,6 +140,11 @@
         }
 
         @media (max-width: 768px) {
+            body,
+            body.menu-expanded {
+                padding: 5rem 1rem 1rem 5rem;
+            }
+
             .container {
                 grid-template-columns: 1fr;
                 padding: 0 30px;
@@ -191,7 +210,31 @@
         }
     </style>
 </head>
-<body>
+<body class="menu-expanded">
+    <script src="../assets/js/sidebar.js"></script>
+    <div class="l-navbar expander" id="navbar">
+        <nav class="nav">
+            <div>
+                <div class="nav__brand" style="margin-bottom: 20px;">
+                    <img id="nav-toggle" src="../Icons/Menu/menu-outline.png" class="nav__toggle" alt="nav-toggle">
+                </div>
+                <div class="nav__list">
+                    <div><a href="./main.html" class="nav__link"><img src="../Icons/Menu/home-outline.png" class="nav__icon" alt="Main"><span class="nav_name">Main</span></a></div>
+                    <div><a href="./company.html" class="nav__link active"><img src="../Icons/Menu/company.png" class="nav__icon" alt="Company"><span class="nav_name">Company</span></a></div>
+                    <div><a href="./links.html" class="nav__link"><img src="../Icons/Menu/link_icon.png" class="nav__icon" alt="Link"><span class="nav_name">Link</span></a></div>
+                    <div><a href="./applications.html" class="nav__link"><img src="../Icons/Menu/applications.png" class="nav__icon" alt="Application"><span class="nav_name">Application</span></a></div>
+                    <div><a href="./documents.html" class="nav__link"><img src="../Icons/Menu/documents.png" class="nav__icon" alt="Documents"><span class="nav_name">Documents</span></a></div>
+                    <div><a href="../plc/plc.html" class="nav__link"><img src="../Icons/Menu/plc.png" class="nav__icon" alt="PLC"><span class="nav_name">PLC</span></a></div>
+                    <div><a href="../plc/ImMel.html" class="nav__link"><img src="../Icons/Menu/ImMel.png" class="nav__icon" alt="ImMel"><span class="nav_name">ImMel</span></a></div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <main class="page-content">
+    <!-- Earth Animation Canvas -->
+    <canvas id="matrixCanvas" style="position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%;"></canvas>
+    
     <header>
         <h1>ImagineTech, Specializing in software</h1>
         <p>PLC Programming, C & C# Language for automation plant</p>
@@ -228,5 +271,16 @@
             <p>- MELSEC communication protocol and automatically send it to MariaDB in C#</p>
         </div>
     </div>
+    </main>
+    
+    <!-- Simple Earth Animation Script -->
+    <script src="../assets/js/earth-scene.js"></script>
+    <script>
+        window.initEarthScene({
+            canvasId: 'matrixCanvas',
+            texturePath: '../image/earth-texture.jpg',
+            preset: 'main'
+        });
+    </script>
 </body>
 </html>
