@@ -80,7 +80,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: -3;
+        z-index: -2;
         background: linear-gradient(135deg, #000408 0%, #0a0a0f 25%, #1a1a2e 75%, #0f1419 100%) !important;
         /* Performance optimization for canvas */
         will-change: transform;
@@ -88,10 +88,11 @@
         image-rendering: optimizeSpeed;
         image-rendering: -webkit-optimize-contrast;
         image-rendering: optimize-contrast;
+        pointer-events: none;
       }  
       
       body {
-        background: linear-gradient(135deg, #000408 0%, #0a0a0f 25%, #1a1a2e 75%, #0f1419 100%) !important;
+        background: transparent !important;
         color: #ecf0f1;
       }
       
@@ -190,13 +191,13 @@
               </div>        
               <!-- Navigation link: PLC page -->
               <div> 
-                <a href="#" class="nav__link" data-page="./plc/plc.html">
+                <a href="#" class="nav__link" data-page="./article/plc.html">
                   <img src="./Icons/Menu/plc.png" class="nav__icon">
                   <span class="nav_name">PLC</span>
                 </a>
               </div>
               <div>
-                <a href="#" class="nav__link" data-page="./plc/ImMel.html">
+                <a href="#" class="nav__link" data-page="./article/ImMel.html">
                   <img src="./Icons/Menu/ImMel.png" class="nav__icon" alt="ImMel">
                   <span class="nav_name">ImMel</span>
                 </a>
