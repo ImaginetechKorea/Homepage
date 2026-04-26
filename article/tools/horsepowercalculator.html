@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마력 단위 변환기 | Horsepower Unit Converter</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        .calculator-container { max-width: 400px; margin: 40px auto; padding: 24px; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .calculator-container h2 { margin-bottom: 18px; font-size: 1.3em; color: #1a1a1a; font-weight: 700; letter-spacing: 0.01em; }
+        .calculator-container h2 small { display: block; font-size: 0.95em; color: #444; font-weight: 500; margin-top: 2px; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; color: #222; font-weight: 600; }
+        input, select { width: 100%; padding: 8px; border: 1px solid #bbb; border-radius: 4px; }
+        button { width: 100%; padding: 10px; background: #1976d2; color: #fff; border: none; border-radius: 4px; font-size: 1em; cursor: pointer; margin-top: 10px; }
+        button:hover { background: #1256a3; }
+        .result { margin-top: 20px; padding: 12px; background: #f5f5f5; border-radius: 6px; font-size: 1.1em; color: #222; font-weight: 600; letter-spacing: 0.01em; }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <h2>마력 단위 변환기<br><small>Horsepower Unit Converter</small></h2>
+        <div class="form-group">
+            <label for="hp-value">값 입력</label>
+            <input type="number" id="hp-value" placeholder="값을 입력하세요" step="any">
+        </div>
+        <div class="form-group">
+            <label for="hp-from">현재 단위</label>
+            <select id="hp-from">
+                <option value="metric">미터마력 (PS, metric hp)</option>
+                <option value="mechanical">기계식마력 (HP, mechanical)</option>
+                <option value="kilowatt">킬로와트 (kW)</option>
+                <option value="electrical">전기마력 (HP, electrical)</option>
+                <option value="boiler">보일러마력 (HP, boiler)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="hp-to">변환할 단위</label>
+            <select id="hp-to">
+                <option value="metric">미터마력 (PS, metric hp)</option>
+                <option value="mechanical">기계식마력 (HP, mechanical)</option>
+                <option value="kilowatt">킬로와트 (kW)</option>
+                <option value="electrical">전기마력 (HP, electrical)</option>
+                <option value="boiler">보일러마력 (HP, boiler)</option>
+            </select>
+        </div>
+        <button onclick="convertHP()">변환</button>
+        <div class="result" id="hp-result"></div>
+    </div>
+    <script>
+    // 단위별 1단위당 kW 환산값
+    const hpToKW = {
+        metric: 0.73549875,      // 미터마력(PS)
+        mechanical: 0.74569987,  // 기계식마력(HP)
+        kilowatt: 1,             // 킬로와트
+        electrical: 0.746,       // 전기마력(HP)
+        boiler: 9.8095           // 보일러마력(HP)
+    };
+
+    function convertHP() {
+        const valueInput = document.getElementById('hp-value').value;
+        const value = parseFloat(valueInput);
+        const from = document.getElementById('hp-from').value;
+        const to = document.getElementById('hp-to').value;
+        const resultDiv = document.getElementById('hp-result');
+
+        if (!valueInput || isNaN(value)) {
+            resultDiv.textContent = '유효한 숫자를 입력하세요.';
+            return;
+        }
+        if (from === to) {
+            resultDiv.textContent = `동일 단위입니다: ${value}`;
+            return;
+        }
+        // 입력값을 kW로 변환
+        const valueInKW = value * hpToKW[from];
+        // kW에서 목표 단위로 변환
+        const converted = valueInKW / hpToKW[to];
+        resultDiv.textContent = `${value} ${getUnitLabel(from)} → ${converted.toLocaleString(undefined, {maximumFractionDigits: 6})} ${getUnitLabel(to)}`;
+    }
+
+    function getUnitLabel(unit) {
+        switch(unit) {
+            case 'metric': return 'PS';
+            case 'mechanical': return 'HP(mechanical)';
+            case 'kilowatt': return 'kW';
+            case 'electrical': return 'HP(electrical)';
+            case 'boiler': return 'HP(boiler)';
+            default: return unit;
+        }
+    }
+    </script>
+</body>
+</html>

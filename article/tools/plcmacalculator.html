@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLC mA-Points 변환기</title>
+  <style>
+    body {
+      font-family: 'Poppins', 'Inter', sans-serif;
+      background: #181c2f;
+      color: #ecf0f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .converter-container {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid #00bcd4;
+      border-radius: 14px;
+      padding: 32px 24px 24px 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      min-width: 320px;
+      max-width: 90vw;
+    }
+    input[type="number"] {
+      width: 120px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #00bcd4;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      background: #23294a;
+      color: #ecf0f1;
+    }
+    select {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #00bcd4;
+      background: #23294a;
+      color: #ecf0f1;
+      font-size: 1rem;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+    button {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      background: #00bcd4;
+      color: #181c2f;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-left: 8px;
+      font-weight: 600;
+    }
+    .result {
+      margin-top: 18px;
+      font-size: 1.2rem;
+      color: #00ffc8;
+      min-height: 1.5em;
+    }
+    .error {
+      color: #ff4d4f;
+    }
+    .desc {
+      font-size: 0.95em;
+      color: #00bcd4;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="converter-container">
+    <h2>PLC mA-Points 변환기</h2>
+    <div class="desc">PLC 아날로그 입력카드의 4~20mA 또는 0~20mA 신호와 Points(0~4095 등) 값을 상호 변환합니다.</div>
+    <form id="plcma-form" autocomplete="off">
+      <label>모드:
+        <select id="mode">
+          <option value="ma2pt">mA → Points</option>
+          <option value="pt2ma">Points → mA</option>
+        </select>
+      </label><br><br>
+      <label>입력 범위:
+        <select id="range">
+          <option value="4-20">4~20mA</option>
+          <option value="0-20">0~20mA</option>
+        </select>
+      </label><br><br>
+      <label>mA 값: <input type="number" id="ma" step="any"></label><br>
+      <label>Points 값: <input type="number" id="pt" step="any"></label><br>
+      <label>최대 Points(예: 4095): <input type="number" id="maxpt" value="4095" step="1"></label><br>
+      <button type="submit">변환</button>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
+  <script>
+    function calcMA2PT(ma, range, maxpt) {
+      let min = range === '4-20' ? 4 : 0;
+      let max = 20;
+      return ((ma - min) / (max - min)) * maxpt;
+    }
+    function calcPT2MA(pt, range, maxpt) {
+      let min = range === '4-20' ? 4 : 0;
+      let max = 20;
+      return (pt / maxpt) * (max - min) + min;
+    }
+    document.getElementById('plcma-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      let mode = document.getElementById('mode').value;
+      let range = document.getElementById('range').value;
+      let ma = document.getElementById('ma').value;
+      let pt = document.getElementById('pt').value;
+      let maxpt = parseInt(document.getElementById('maxpt').value);
+      let resultDiv = document.getElementById('result');
+      if (isNaN(maxpt) || maxpt <= 0) {
+        resultDiv.textContent = '최대 Points 값을 올바르게 입력하세요.';
+        resultDiv.className = 'result error';
+        return;
+      }
+      if (mode === 'ma2pt') {
+        if (ma === '' || isNaN(parseFloat(ma))) {
+          resultDiv.textContent = 'mA 값을 입력하세요.';
+          resultDiv.className = 'result error';
+          return;
+        }
+        let points = calcMA2PT(parseFloat(ma), range, maxpt);
+        resultDiv.textContent = ma + ' mA → ' + points.toFixed(2) + ' Points';
+        resultDiv.className = 'result';
+      } else {
+        if (pt === '' || isNaN(parseFloat(pt))) {
+          resultDiv.textContent = 'Points 값을 입력하세요.';
+          resultDiv.className = 'result error';
+          return;
+        }
+        let maVal = calcPT2MA(parseFloat(pt), range, maxpt);
+        resultDiv.textContent = pt + ' Points → ' + maVal.toFixed(3) + ' mA';
+        resultDiv.className = 'result';
+      }
+    });
+  </script>
+</body>
+</html>
