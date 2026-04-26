@@ -109,13 +109,57 @@
 </head>
 <body id="body-pd">
     <canvas id="matrixCanvas"></canvas>
+    <!-- ImMel 팝업 -->
+    <div id="immel-popup" style="
+      display: none;
+      position: fixed;
+      top: 50px;
+      right: 50px;
+      z-index: 20000;
+      background: rgba(10,18,34,0.98);
+      border: 2px solid #00bcd4;
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      padding: 32px 28px 24px 28px;
+      min-width: 320px;
+      max-width: 90vw;
+      color: #ecf0f1;
+      font-family: 'Poppins', 'Inter', sans-serif;
+      text-align: center;
+      animation: popupFadeIn 0.5s;
+    ">
+      <div style="font-size:1.3rem;font-weight:600;margin-bottom:18px;">ImMel : Monitoring Tools</div>
+      <br>
+      <a href="#" class="nav__link" data-page="./article/ImMel.html"
+        style="border: none;"
+        onclick="document.getElementById('immel-popup').style.display='none';">
+        >Move to ImMel Page
+      </a>
+      <br>
+      <button id="immel-popup-close" style="
+        margin-top:18px;
+        background:transparent;
+        color:#00bcd4;
+        border:none;
+        font-size:1.1rem;
+        cursor:pointer;
+        text-decoration:underline;
+      ">Close</button>
+    </div>
+    <style> 
+      #immel-popup { animation-iteration-count: 1 !important; }
+      @keyframes popupFadeIn {
+        from { opacity: 0; transform: translateY(-30px) scale(0.95); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+    </style>
     <!-- Sidebar Navigation Container -->
     <div class="l-navbar" id="navbar">
         <nav class="nav">
           <div>
             <!-- Sidebar brand section with the navigation toggle icon -->
             <div class="nav__brand"> 
-              <img id="nav-toggle" src="./Icons/Menu/menu-outline.png" class="nav__toggle" alt="nav-toggle">
+              <img id="nav-toggle" src="./Icons/Menu/menu-Hamburger.png" class="nav__toggle" alt="nav-toggle">
             </div>
 
             <!-- Navigation List Container -->
@@ -187,5 +231,23 @@
     <script src="./assets/js/sidebar.js"></script>
     <script src="./assets/js/earth-scene.js"></script>
     <script src="./assets/js/main.js"></script> 
+</body>
+<script>
+// ImMel 팝업 표시 로직
+window.addEventListener('DOMContentLoaded', function() {
+  var popup = document.getElementById('immel-popup');
+  var closeBtn = document.getElementById('immel-popup-close');
+  if (popup && closeBtn) {
+    // 2초 후 팝업 표시
+    setTimeout(function() {
+      popup.style.display = 'block';
+    }, 2000);
+    // 닫기 버튼 클릭 시 팝업 숨김
+    closeBtn.onclick = function() {
+      popup.style.display = 'none';
+    };
+  }
+});
+</script>
 </body>
 </html> 
