@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>무게 단위 변환기</title>
+  <style>
+    body {
+      font-family: 'Poppins', 'Inter', sans-serif;
+      background: #181c2f;
+      color: #ecf0f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .converter-container {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid #00bcd4;
+      border-radius: 14px;
+      padding: 32px 24px 24px 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      min-width: 320px;
+      max-width: 90vw;
+    }
+    input[type="number"] {
+      width: 120px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #00bcd4;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      background: #23294a;
+      color: #ecf0f1;
+    }
+    select {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #00bcd4;
+      background: #23294a;
+      color: #ecf0f1;
+      font-size: 1rem;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+    button {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      background: #00bcd4;
+      color: #181c2f;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-left: 8px;
+      font-weight: 600;
+    }
+    .result {
+      margin-top: 18px;
+      font-size: 1.2rem;
+      color: #00ffc8;
+      min-height: 1.5em;
+    }
+    .error {
+      color: #ff4d4f;
+    }
+  </style>
+</head>
+<body>
+  <div class="converter-container">
+    <h2>무게 단위 변환기</h2>
+    <form id="weight-form" autocomplete="off">
+      <input type="number" id="weight-value" placeholder="값 입력" required step="any">
+      <select id="from-unit">
+        <option value="kg">킬로그램(kg)</option>
+        <option value="g">그램(g)</option>
+        <option value="mg">밀리그램(mg)</option>
+        <option value="t">톤(t)</option>
+        <option value="lb">파운드(lb)</option>
+        <option value="oz">온스(oz)</option>
+        <option value="st">스톤(st)</option>
+      </select>
+      <span>→</span>
+      <select id="to-unit">
+        <option value="kg">킬로그램(kg)</option>
+        <option value="g">그램(g)</option>
+        <option value="mg">밀리그램(mg)</option>
+        <option value="t">톤(t)</option>
+        <option value="lb">파운드(lb)</option>
+        <option value="oz">온스(oz)</option>
+        <option value="st">스톤(st)</option>
+      </select>
+      <button type="submit">변환</button>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
+  <script>
+    // 모든 단위를 kg(킬로그램)으로 환산하는 계수
+    const unitToKg = {
+      kg: 1,
+      g: 0.001,
+      mg: 0.000001,
+      t: 1000,
+      lb: 0.45359237,
+      oz: 0.0283495231,
+      st: 6.35029318
+    };
+    document.getElementById('weight-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const value = parseFloat(document.getElementById('weight-value').value);
+      const from = document.getElementById('from-unit').value;
+      const to = document.getElementById('to-unit').value;
+      let resultDiv = document.getElementById('result');
+      if (isNaN(value)) {
+        resultDiv.textContent = '숫자를 입력하세요.';
+        resultDiv.className = 'result error';
+        return;
+      }
+      // 변환: 입력값을 kg로 변환 후 원하는 단위로 변환
+      const kg = value * unitToKg[from];
+      const converted = kg / unitToKg[to];
+      resultDiv.textContent = value + ' ' + from + ' = ' + converted + ' ' + to;
+      resultDiv.className = 'result';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>면적 단위 변환기</title>
+  <style>
+    body {
+      font-family: 'Poppins', 'Inter', sans-serif;
+      background: #181c2f;
+      color: #ecf0f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .converter-container {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid #00bcd4;
+      border-radius: 14px;
+      padding: 32px 24px 24px 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      min-width: 320px;
+      max-width: 90vw;
+    }
+    input[type="number"] {
+      width: 120px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #00bcd4;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      background: #23294a;
+      color: #ecf0f1;
+    }
+    select {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #00bcd4;
+      background: #23294a;
+      color: #ecf0f1;
+      font-size: 1rem;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+    button {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      background: #00bcd4;
+      color: #181c2f;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-left: 8px;
+      font-weight: 600;
+    }
+    .result {
+      margin-top: 18px;
+      font-size: 1.2rem;
+      color: #00ffc8;
+      min-height: 1.5em;
+    }
+    .error {
+      color: #ff4d4f;
+    }
+  </style>
+</head>
+<body>
+  <div class="converter-container">
+    <h2>면적 단위 변환기</h2>
+    <form id="area-form" autocomplete="off">
+      <input type="number" id="area-value" placeholder="값 입력" required step="any">
+      <select id="from-unit">
+        <option value="m2">제곱미터(m²)</option>
+        <option value="cm2">제곱센티미터(cm²)</option>
+        <option value="mm2">제곱밀리미터(mm²)</option>
+        <option value="km2">제곱킬로미터(km²)</option>
+        <option value="a">아르(a)</option>
+        <option value="ha">헥타르(ha)</option>
+        <option value="ft2">제곱피트(ft²)</option>
+        <option value="in2">제곱인치(in²)</option>
+        <option value="yd2">제곱야드(yd²)</option>
+        <option value="ac">에이커(ac)</option>
+      </select>
+      <span>→</span>
+      <select id="to-unit">
+        <option value="m2">제곱미터(m²)</option>
+        <option value="cm2">제곱센티미터(cm²)</option>
+        <option value="mm2">제곱밀리미터(mm²)</option>
+        <option value="km2">제곱킬로미터(km²)</option>
+        <option value="a">아르(a)</option>
+        <option value="ha">헥타르(ha)</option>
+        <option value="ft2">제곱피트(ft²)</option>
+        <option value="in2">제곱인치(in²)</option>
+        <option value="yd2">제곱야드(yd²)</option>
+        <option value="ac">에이커(ac)</option>
+      </select>
+      <button type="submit">변환</button>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
+  <script>
+    // 모든 단위를 m²(제곱미터)로 환산하는 계수
+    const unitToM2 = {
+      m2: 1,
+      cm2: 0.0001,
+      mm2: 0.000001,
+      km2: 1000000,
+      a: 100,
+      ha: 10000,
+      ft2: 0.09290304,
+      in2: 0.00064516,
+      yd2: 0.83612736,
+      ac: 4046.8564224
+    };
+    document.getElementById('area-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const value = parseFloat(document.getElementById('area-value').value);
+      const from = document.getElementById('from-unit').value;
+      const to = document.getElementById('to-unit').value;
+      let resultDiv = document.getElementById('result');
+      if (isNaN(value)) {
+        resultDiv.textContent = '숫자를 입력하세요.';
+        resultDiv.className = 'result error';
+        return;
+      }
+      // 변환: 입력값을 m²로 변환 후 원하는 단위로 변환
+      const m2 = value * unitToM2[from];
+      const converted = m2 / unitToM2[to];
+      resultDiv.textContent = value + ' ' + from + ' = ' + converted + ' ' + to;
+      resultDiv.className = 'result';
+    });
+  </script>
+</body>
+</html>

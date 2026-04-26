@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expression Calculator</title>
+  <style>
+    body {
+      font-family: 'Poppins', 'Inter', sans-serif;
+      background: #181c2f;
+      color: #ecf0f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .calculator-container {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid #00bcd4;
+      border-radius: 14px;
+      padding: 32px 24px 24px 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      min-width: 320px;
+      max-width: 90vw;
+    }
+    input[type="text"] {
+      width: 220px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #00bcd4;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      background: #23294a;
+      color: #ecf0f1;
+    }
+    button {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      background: #00bcd4;
+      color: #181c2f;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-left: 8px;
+      font-weight: 600;
+    }
+    .result {
+      margin-top: 18px;
+      font-size: 1.2rem;
+      color: #00ffc8;
+      min-height: 1.5em;
+    }
+    .error {
+      color: #ff4d4f;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator-container">
+    <h2>수식 계산기</h2>
+    <form id="calc-form" autocomplete="off">
+      <input type="text" id="expression" placeholder="예: 2+3*4/2, sin(30), hex(255), dec(0xff)" required autofocus>
+      <button type="submit">계산</button>
+    </form>
+    <div style="font-size:0.95em;color:#00bcd4;margin-top:8px;">사칙연산, sin, cos, tan, hex, dec 지원<br>각 함수는 소문자로 입력하세요. 각도는 도(degree) 단위입니다.</div>
+    <div class="result" id="result"></div>
+  </div>
+  <script>
+    document.getElementById('calc-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const expr = document.getElementById('expression').value.trim();
+      let resultDiv = document.getElementById('result');
+      try {
+        // 허용: 숫자, 연산자, 괄호, 소수점, 공백, sin, cos, tan, hex, dec, bin, 0x, 0b, 0X, 0B
+        if (!/^[-+*/().,\d\sxa-fA-FbB]+$|sin|cos|tan|hex|dec|bin/i.test(expr)) throw new Error('허용되지 않는 문자가 포함되어 있습니다.');
+
+        // 함수 정의: sin, cos, tan (degree), hex, dec, bin
+        const safeContext = {
+          sin: function(x) { return Math.sin((Number(x) * Math.PI) / 180); },
+          cos: function(x) { return Math.cos((Number(x) * Math.PI) / 180); },
+          tan: function(x) { return Math.tan((Number(x) * Math.PI) / 180); },
+          hex: function(x) { return '0x' + (Number(x) >>> 0).toString(16).toUpperCase(); },
+          dec: function(x) {
+            if (typeof x === 'string') {
+              const s = x.trim().toLowerCase();
+              if (s.startsWith('0x')) return parseInt(s, 16);
+              if (s.startsWith('0b')) return parseInt(s, 2);
+            }
+            return Number(x);
+          },
+          bin: function(x) { return '0b' + (Number(x) >>> 0).toString(2); }
+        };
+
+        // 함수 치환: 중첩 괄호 및 수식 지원
+        function replaceAllFuncs(str) {
+          const funcs = ['sin', 'cos', 'tan', 'hex', 'dec', 'bin'];
+          for (const func of funcs) {
+            // 중첩 괄호까지 지원하는 정규식
+            str = str.replace(new RegExp(func + '\\(([^()]*(?:\\([^()]*\\)[^()]*)*)\\)', 'gi'), (match, a) => `safeContext.${func}(${a})`);
+          }
+          return str;
+        }
+        let safeExpr = replaceAllFuncs(expr);
+
+        // eslint-disable-next-line no-new-func
+        let result = Function('safeContext', `return (${safeExpr})`)(safeContext);
+        if (typeof result === 'number' && isFinite(result)) {
+          resultDiv.textContent = '= ' + result;
+          resultDiv.className = 'result';
+        } else if (typeof result === 'string') {
+          resultDiv.textContent = '= ' + result;
+          resultDiv.className = 'result';
+        } else {
+          throw new Error('계산할 수 없습니다.');
+        }
+      } catch (err) {
+        resultDiv.textContent = err.message;
+        resultDiv.className = 'result error';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>전력 계산기 (피상, 유효, 무효)</title>
+  <style>
+    body {
+      font-family: 'Poppins', 'Inter', sans-serif;
+      background: #181c2f;
+      color: #ecf0f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .calculator-container {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid #00bcd4;
+      border-radius: 14px;
+      padding: 32px 24px 24px 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      min-width: 320px;
+      max-width: 90vw;
+    }
+    input[type="number"] {
+      width: 120px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #00bcd4;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      background: #23294a;
+      color: #ecf0f1;
+    }
+    select {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #00bcd4;
+      background: #23294a;
+      color: #ecf0f1;
+      font-size: 1rem;
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+    button {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      background: #00bcd4;
+      color: #181c2f;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-left: 8px;
+      font-weight: 600;
+    }
+    .result {
+      margin-top: 18px;
+      font-size: 1.2rem;
+      color: #00ffc8;
+      min-height: 1.5em;
+    }
+    .error {
+      color: #ff4d4f;
+    }
+    .desc {
+      font-size: 0.95em;
+      color: #00bcd4;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator-container">
+    <h2>전력 계산기</h2>
+    <div class="desc">피상전력(S, kVA), 유효전력(P, kW), 무효전력(Q, kVAR) 중 2개와 역률(%)을 입력하면 나머지를 계산합니다.<br>단상/삼상 선택 가능</div>
+    <form id="power-form" autocomplete="off">
+      <label>회로:
+        <select id="phase">
+          <option value="single">단상</option>
+          <option value="three">삼상</option>
+        </select>
+      </label><br><br>
+      <label>피상전력 S (kVA): <input type="number" id="s" step="any"></label><br>
+      <label>유효전력 P (kW): <input type="number" id="p" step="any"></label><br>
+      <label>무효전력 Q (kVAR): <input type="number" id="q" step="any"></label><br>
+      <label>역률(%) : <input type="number" id="pf" min="0" max="100" step="any"></label><br>
+      <button type="submit">계산</button>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
+  <script>
+    function toNumber(val) {
+      return (val === '' || val === null || typeof val === 'undefined') ? null : Number(val);
+    }
+    document.getElementById('power-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      let S = toNumber(document.getElementById('s').value);
+      let P = toNumber(document.getElementById('p').value);
+      let Q = toNumber(document.getElementById('q').value);
+      let pf = toNumber(document.getElementById('pf').value);
+      let phase = document.getElementById('phase').value;
+      let resultDiv = document.getElementById('result');
+      // 역률은 0~1로 변환
+      if (pf !== null) pf = pf > 1 ? pf / 100 : pf;
+      // 최소 2개 입력 필요
+      let count = [S,P,Q,pf].filter(x=>x!==null && !isNaN(x)).length;
+      if (count < 2) {
+        resultDiv.textContent = '2개 이상의 값을 입력하세요.';
+        resultDiv.className = 'result error';
+        return;
+      }
+      // 계산
+      // S^2 = P^2 + Q^2, pf = P/S
+      if (S !== null && P !== null) {
+        Q = Math.sqrt(Math.max(0, S*S - P*P));
+        pf = P/S;
+      } else if (S !== null && Q !== null) {
+        P = Math.sqrt(Math.max(0, S*S - Q*Q));
+        pf = P/S;
+      } else if (P !== null && Q !== null) {
+        S = Math.sqrt(P*P + Q*Q);
+        pf = S === 0 ? 0 : P/S;
+      } else if (S !== null && pf !== null) {
+        P = S * pf;
+        Q = Math.sqrt(Math.max(0, S*S - P*P));
+      } else if (P !== null && pf !== null) {
+        S = P / pf;
+        Q = Math.sqrt(Math.max(0, S*S - P*P));
+      } else if (Q !== null && pf !== null) {
+        S = Q / Math.sqrt(1 - pf*pf);
+        P = S * pf;
+      }
+      // 삼상일 경우: S, P, Q 모두 *sqrt(3)
+      if (phase === 'three') {
+        if (S !== null) S = S * Math.sqrt(3);
+        if (P !== null) P = P * Math.sqrt(3);
+        if (Q !== null) Q = Q * Math.sqrt(3);
+      }
+      resultDiv.innerHTML =
+        '피상전력 S = ' + (S!==null?S.toFixed(3):'-') + ' kVA<br>' +
+        '유효전력 P = ' + (P!==null?P.toFixed(3):'-') + ' kW<br>' +
+        '무효전력 Q = ' + (Q!==null?Q.toFixed(3):'-') + ' kVAR<br>' +
+        '역률(pf) = ' + (pf!==null?(pf*100).toFixed(2):'-') + ' %';
+      resultDiv.className = 'result';
+    });
+  </script>
+</body>
+</html>

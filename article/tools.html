@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <style>
+      body {
+        background: transparent !important;
+        color: #ecf0f1;
+        font-family: 'Poppins', 'Inter', sans-serif;
+        margin: 0;
+        padding: 2rem 1rem 2rem 5rem;
+      }
+
+      body.menu-expanded {
+        padding-left: 16rem;
+      }
+
+      .page-content {
+        position: relative;
+        z-index: 1;
+      }
+      
+      .settings-content {
+        padding: 25px;
+        max-width: 1920px;
+        width: 100%;
+        margin: 0 auto;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 14px;
+        border: 1px solid rgba(0, 188, 212, 0.3);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+      
+      .settings-content h2 {
+        color: #00bcd4;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(0, 188, 212, 0.35);
+        padding-bottom: 12px;
+        margin-bottom: 20px;
+        margin-top: 35px;
+        text-shadow: 0 0 15px rgba(0, 188, 212, 0.5);
+        position: relative;
+      }
+      
+      .settings-content h2::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, #0ff, #00bcd4);
+        animation: glow 2s ease-in-out infinite alternate;
+      }
+      
+      @keyframes glow {
+        from { box-shadow: 0 0 5px #0ff; }
+        to { box-shadow: 0 0 15px #0ff; }
+      }
+      
+      .settings-content h2:first-child {
+        margin-top: 0;
+      }
+      
+      .settings-content a {
+        display: block;
+        padding: 15px 20px;
+        margin: 12px 0;
+        background: rgba(0, 0, 0, 0.22);
+        border-radius: 8px;
+        text-decoration: none;
+        color: #ecf0f1;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0, 188, 212, 0.3);
+        position: relative;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+      
+      .settings-content a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+          transparent 0%,
+          rgba(0, 255, 255, 0.1) 50%,
+          transparent 100%);
+        transition: left 0.5s ease;
+      }
+      
+      .settings-content a:hover::before {
+        left: 100%;
+      }
+      
+      .settings-content a:hover {
+        background: rgba(0, 0, 0, 0.36);
+        transform: translateX(8px) scale(1.02);
+        border-color: #0ff;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+      }
+      
+      /* 모바일 최적화 */
+      @media (max-width: 768px) {
+        body,
+        body.menu-expanded {
+          padding: 5rem 0.75rem 1rem calc(var(--nav--width, 62px) + 0.75rem);
+        }
+
+        .settings-content {
+          padding: 15px 12px;
+        }
+        
+        .settings-content h2 {
+          font-size: 1.3rem;
+        }
+        
+        .settings-content a {
+          padding: 15px 12px;
+          margin: 10px 0;
+          font-size: 1rem;
+          min-height: 48px; /* 터치 친화적 크기 */
+          display: flex;
+          align-items: center;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        body,
+        body.menu-expanded {
+          padding: 4.75rem 0.5rem 0.75rem calc(var(--nav--width, 62px) + 0.5rem);
+        }
+
+        .settings-content {
+          padding: 10px;
+        }
+        
+        .settings-content h2 {
+          font-size: 1.2rem;
+        }
+        
+        .settings-content a {
+          padding: 18px 15px;
+          font-size: 1.1rem;
+        }
+      }
+    </style>
+</head>
+<body>
+    <main class="page-content">
+    <div class="settings-content"> 
+        <h2>Calculator</h2>
+        <a href="./tools/calculator.html"" target="_blank">Calculator</a>
+    </div>
+    <div class="settings-content"> 
+        <h2>Length Calculator</h2>
+        <a href="./tools/lengthcalculator.html"" target="_blank">Length Calculator</a>
+    </div> 
+    <div class="settings-content"> 
+        <h2>Area Calculator</h2>
+        <a href="./tools/areacalculator.html"" target="_blank">Area Calculator</a>
+    </div>  
+    <div class="settings-content"> 
+        <h2>Volume Calculator</h2>
+        <a href="./tools/volumecalculator.html"" target="_blank">Volume Calculator</a>
+    </div>    
+    <div class="settings-content"> 
+        <h2>Weight Calculator</h2>
+        <a href="./tools/weightcalculator.html"" target="_blank">Weight Calculator</a>
+    </div>
+    <div class="settings-content"> 
+        <h2>Temperature Calculator</h2>
+        <a href="./tools/temperaturecalculator.html"" target="_blank">Temperature Calculator</a>
+    </div>  
+    <div class="settings-content"> 
+        <h2>Pressure Calculator</h2>
+        <a href="./tools/pressurecalculator.html"" target="_blank">Pressure Calculator</a>
+    </div>
+    <div class="settings-content"> 
+        <h2>Flow Calculator</h2>
+        <a href="./tools/flowcalculator.html"" target="_blank">Flow Calculator</a>
+    </div>
+    <div class="settings-content"> 
+        <h2>Power Calculator</h2>
+        <a href="./tools/powercalculator.html"" target="_blank">Power Calculator</a>
+    </div>
+    </main>
+</body>
+</html>
