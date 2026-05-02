@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Activations>
   <Activation>
-    <RequestCode>REQ-8F3A-22CD-9A01</RequestCode>
-    <LicenseCode>IMMEL-K7F2-D9QP-4XRA-M8LN</LicenseCode>
+    <LicenseOwner Name="temp">
+        <RequestCode>0442-3TGB-5B7N-2RWD-P35B-0YNB</RequestCode>
+        <LicenseCode>04423TGB5B7N2RWDP35B154EZXQT6TT0BWH16B59ANE6TCN3NZ2HV7T0V3YP3MEK6HNGNC33P1AP39QTMYKM87T1ZFHGF3XA78HA9AF8D9E8DT8J0Y3ZFMPWZP9Q0K8F1JX0</LicenseCode>
+    </LicenseOwner>
+    <LicenseOwner Name="imaginetech.kr">
+        <RequestCode>0442-3TGB-5B7N-2RWW-4RRX-GS9E</RequestCode>
+        <LicenseCode>04423TGB5B7N2RWW4RRXH54EZW25DB383K21ZMHKRH4YXTRBPHSWDCS4G27WSX3TVM5KFGWMYMJFZW8QH74WYZ0YHJRGYCHM5G5NNQWYJTQ47C9DDVRMW1VV92CQ31R340R0</LicenseCode>
+    </LicenseOwner>
   </Activation>
 </Activations>
