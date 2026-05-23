@@ -1,5 +1,8 @@
 {
     "files.candidateGuessEncodings": [
         "utf8"
-    ]
+    ],
+    "chat.tools.terminal.autoApprove": {
+        "&": true
+    }
 }
