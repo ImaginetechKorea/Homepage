@@ -44,8 +44,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Initial page load (Dashboard)
-    const initialPage = './article/main.html';
+    // Open ImMel within the homepage when linked from the download page.
+    const requestedPage = new URLSearchParams(window.location.search).get('page');
+    const initialPage = requestedPage === 'ImMel' ? './article/ImMel.html' : './article/main.html';
+    document.querySelectorAll('.nav__list .nav__link[data-page]').forEach(link => {
+        link.classList.toggle('active', link.getAttribute('data-page') === initialPage);
+    });
     loadContent(initialPage);
     if (contentAreaH1) {
         // Find the Dashboard link to set the initial title correctly
